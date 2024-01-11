@@ -25,7 +25,7 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 
 ## Electronics
 
-The electronics draw power from the bus voltage and require no additional power source. A Seeeduino ESP32-C3 XIAO serves as the controller board.
+The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
 
 ![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
 
