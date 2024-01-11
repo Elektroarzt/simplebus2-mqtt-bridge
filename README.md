@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project focuses on integrating Comelit intercom systems running Simplebus2 protocol into a Smart Home, typically equipped with an MQTT broker for information exchange. The following functions have been implemented:
+This project focuses on integrating Comelit intercom systems running the Simplebus2 protocol into a Smart Home, typically equipped with an MQTT broker for information exchange. The following functions have been implemented:
 
 -   Doorbell signal for the main entrance
 -   Doorbell signal for the apartment door
