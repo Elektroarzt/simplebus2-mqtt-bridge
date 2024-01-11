@@ -20,11 +20,14 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 ## Electronics
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeeduino ESP32-C3 XIAO serves as the controller board.
+
 ![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
 
 ## Printed Circuit Board (PCB)
 
 The PCB was created using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements using KiCAD.
+
+<img width="732" alt="Layout front V2 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f5932b9b-821a-460e-b4a3-818edec00a40">
 
 ## Mechanics
 
