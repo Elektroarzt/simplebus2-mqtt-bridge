@@ -45,8 +45,12 @@ The USB-C socket is externally routed, allowing for easy updates.
 
 The onboard LED features a simple light guide, making it visible externally when the housing is closed. The onboard button is operated with a small axis embedded in the housing.
 
-The housing was 3D printed in three colors:
+The housing is designed in Autodesk Fusion 360 and was 3D-printed in three colors on Bambu Lab P1S printer:
 
 -   LED diffuser: transparent filament
 -   Housing: black filament
 -   Labeling: white filament
+
+![Mittel (Housing V10)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/8a876f20-7a97-4d8a-b7a7-971fe98ba21d)
+
+
