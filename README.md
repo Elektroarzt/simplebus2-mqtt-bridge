@@ -31,7 +31,7 @@ The electronics draw power from the bus voltage and require no additional power 
 
 ## Printed Circuit Board (PCB)
 
-The PCB was created using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements using KiCAD.
+The PCB was created with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements.
 
 <img width="732" alt="Layout front V2 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f5932b9b-821a-460e-b4a3-818edec00a40">
 
