@@ -19,8 +19,6 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic3)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e0feba6d-6ee0-4110-b9d2-6cd0f7c0bd5e)
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic1)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/d8a11951-7a84-4a68-9024-52218611ec41)
 
-## Functionality
-
 ## Software
 
 ## Electronics
