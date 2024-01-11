@@ -13,11 +13,11 @@ This project focuses on integrating Comelit intercom systems with Simplebus2 pro
 
 The project originated from foundational work on the Simplebus2 protocol by [plusvic](https://github.com/plusvic). These fundamentals will not be reiterated and can be found [here](https://github.com/plusvic/simplebus2-intercom).
 
-![Simplebus2 MQTT Bridge V2 0 Pic4](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/a39002f3-98a1-447f-a74c-cfa44858eafd)
-![Simplebus2 MQTT Bridge V2 0 Pic5](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7691ce40-320a-439c-98d1-27f9c1b3ebde)
-![Simplebus2 MQTT Bridge V2 0 Pic2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/87916f2a-d24a-4864-96a7-0b422110d9af)
-![Simplebus2 MQTT Bridge V2 0 Pic3](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/86c1f8c1-742a-4f7b-a3c1-db9a6a988922)
-![Simplebus2 MQTT Bridge V2 0 Pic1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/835b414e-3ab6-4d20-94d2-c4cc7889a36d)
+![Mittel (Simplebus2 MQTT Bridge V2 0 Pic4)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/50545446-1467-4713-9ef4-0c6b95b12a7c)
+![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
+![Mittel (Simplebus2 MQTT Bridge V2 0 Pic2)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/6b3fbd68-7e7e-4de6-b161-e1b7b0db3095)
+![Mittel (Simplebus2 MQTT Bridge V2 0 Pic3)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e0feba6d-6ee0-4110-b9d2-6cd0f7c0bd5e)
+![Mittel (Simplebus2 MQTT Bridge V2 0 Pic1)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/d8a11951-7a84-4a68-9024-52218611ec41)
 
 ## Functionality
 
