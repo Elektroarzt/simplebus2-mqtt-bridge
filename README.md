@@ -8,8 +8,10 @@ This project focuses on integrating Comelit intercom systems with Simplebus2 pro
 -   Doorbell signal for the apartment door
 -   Opening the main entrance door
 -   Ring-to-Open (automatic opening)
+-   WiFi Manager
+-   Configuration via Web Interface
 
-The project originated from foundational work on the Simplebus2 protocol by [plusvic](https://github.com/plusvic). These fundamentals will not be reiterated here and can be found [here](https://github.com/plusvic/simplebus2-intercom).
+The project originated from foundational work on the Simplebus2 protocol by [plusvic](https://github.com/plusvic). These fundamentals will not be reiterated and can be found [here](https://github.com/plusvic/simplebus2-intercom).
 
 ## Functionality
 
@@ -21,13 +23,13 @@ The electronics draw power from the bus voltage and require no additional power 
 
 ## Printed Circuit Board (PCB)
 
-The PCB was created using through-hole technology (THT) and surface-mount device technology (SMD) with KiCAD.
+The PCB was created using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements using KiCAD.
 
 ## Mechanics
 
 The entire electronics assembly should fit into a flush-mounted housing, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
 
-The antenna is glued inside the housing, and a small cable channel exists for the antenna cable within the housing.
+The antenna is glued inside the housing with adhesive tape, and a small cable channel exists for the antenna cable within the housing.
 
 The USB-C socket is externally routed, allowing for easy updates.
 
