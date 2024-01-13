@@ -17,6 +17,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
 -   Configuration via Web Interface
+-   ...
 
 The project originated from foundational work on the Simplebus2 protocol by [plusvic](https://github.com/plusvic). These fundamentals will not be reiterated and can be found [here](https://github.com/plusvic/simplebus2-intercom).
 
