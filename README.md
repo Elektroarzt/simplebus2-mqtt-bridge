@@ -40,7 +40,7 @@ The PCB was created with KiCAD using through-hole technology (THT) and surface-m
 
 ## Mechanics
 
-The entire electronics assembly should fit into a flush-mounted housing, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
+The entire electronics assembly should fit into a flush-mounted switch box, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
 
 ### Antenna
 The antenna is glued inside the housing with adhesive tape, and a small cable channel exists for the antenna cable within the housing.
