@@ -1,5 +1,10 @@
 # Simplebus2 MQTT Bridge
 
+[1. Overview](#Overview)  
+[2. Software](#Software)  
+[3. Hardware](#Hardware)  
+[4. Mechanics](#Mechanics)  
+
 ## Overview
 
 This project focuses on integrating Comelit intercom systems running the Simplebus2 protocol into a Smart Home, typically equipped with an MQTT broker for information exchange. The following functions have been implemented:
@@ -19,7 +24,7 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 
 ## Software
 
-## Electronics
+## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
 
