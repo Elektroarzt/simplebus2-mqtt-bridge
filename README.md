@@ -53,3 +53,8 @@ For the filament every material is suitable that has low stringing tendency. PLA
 
 <img width="1624" alt="Bambu Lab project" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/63c5a7bc-3bb4-44be-bc23-8f8ee1acf185">
 
+> :warning: **WARNING**: You may only **USE THIS PROJECT AT YOUR OWN RISK**. The
+  information provided is meant to be helpful but may contain errors or may be
+  misinterpreted. Neither myself nor any of the contributors to this project
+  provide any warranty or will assume any responsibility for any damage you
+  cause yourself or others by using this project.
