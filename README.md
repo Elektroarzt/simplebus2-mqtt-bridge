@@ -26,11 +26,22 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 
 ## Software
 
+Topics to describe:
+- calibration process
+- web interface
+- ...
+
 ## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
 
 ![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
+
+Topics to describe:
+- filter topology
+- hardware filter vs. DSP
+- i2c digital potentiometer / voltage divider
+- ...
 
 ## Printed Circuit Board (PCB)
 
