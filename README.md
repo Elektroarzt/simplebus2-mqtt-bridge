@@ -1,5 +1,12 @@
 # Simplebus2 MQTT Bridge
 
+### Table of contents
+[1. Overview](#Overview)  
+[2. Software](#Software)  
+[3. Hardware](#Hardware)  
+[4. Mechanics](#Mechanics)  
+[5. Disclaimer](#Disclaimer)  
+
 ## Overview
 
 This project focuses on integrating Comelit intercom systems running the Simplebus2 protocol into a Smart Home, typically equipped with an MQTT broker for information exchange. The following functions have been implemented:
@@ -19,7 +26,7 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 
 ## Software
 
-## Electronics
+## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
 
@@ -33,14 +40,18 @@ The PCB was created with KiCAD using through-hole technology (THT) and surface-m
 
 ## Mechanics
 
-The entire electronics assembly should fit into a flush-mounted housing, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
+The entire electronics assembly should fit into a flush-mounted switch box, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
 
+### Antenna
 The antenna is glued inside the housing with adhesive tape, and a small cable channel exists for the antenna cable within the housing.
 
+### USB Connector
 The USB-C socket is externally routed, allowing for easy updates.
 
+### LED
 The onboard LED features a simple light guide, making it visible externally when the housing is closed. The onboard button is operated with a small axis embedded in the housing.
 
+### Housing
 The housing is designed in Autodesk Fusion 360 and was 3D-printed in three colors on Bambu Lab P1S printer:
 
 -   LED diffuser: transparent filament
@@ -53,6 +64,7 @@ For the filament every material is suitable that has low stringing tendency. PLA
 
 <img width="1624" alt="Bambu Lab project" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/63c5a7bc-3bb4-44be-bc23-8f8ee1acf185">
 
+## Disclaimer
 > :warning: **WARNING**: You may only **USE THIS PROJECT AT YOUR OWN RISK**. The
   information provided is meant to be helpful but may contain errors or may be
   misinterpreted. Neither myself nor any of the contributors to this project
