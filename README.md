@@ -49,5 +49,5 @@ The housing is designed in Autodesk Fusion 360 and was 3D-printed in three color
 
 ![Mittel (Housing V10)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/8a876f20-7a97-4d8a-b7a7-971fe98ba21d)
 
-For the filament every material is suitable that has low stringing tendency. PLA or PETG works both for me without needing supports. 0.2mm layer height does a good job.
+For the filament every material is suitable that has low stringing tendency. PLA or PETG works both for me without needing supports. 0.2mm layer height does a good job on a 0.4mm standard nozzle.
 
