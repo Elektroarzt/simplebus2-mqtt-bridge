@@ -4,8 +4,8 @@
 [1. Overview](#Overview)  
 [2. Software](#Software)  
 [3. Hardware](#Hardware)  
-[4. Mechanics](#Mechanics)
-[5. Disclaimer](#Disclaimer)
+[4. Mechanics](#Mechanics)  
+[5. Disclaimer](#Disclaimer)  
 
 ## Overview
 
