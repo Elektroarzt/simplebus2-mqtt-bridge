@@ -1,4 +1,0 @@
-private/
-test/
-*.bin
-*.DS_Store
