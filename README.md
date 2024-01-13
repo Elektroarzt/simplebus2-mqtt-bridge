@@ -44,6 +44,8 @@ Topics to describe:
 - filter topology
 - hardware filter vs. DSP
 - i2c digital potentiometer / voltage divider
+- debug pin header
+- extension pin header
 - ...
 
 ## Printed Circuit Board (PCB)
