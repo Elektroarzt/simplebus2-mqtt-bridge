@@ -28,6 +28,7 @@ The project originated from foundational work on the Simplebus2 protocol by [plu
 
 Topics to describe:
 - calibration process
+- wifi manager
 - web interface
 - ...
 
