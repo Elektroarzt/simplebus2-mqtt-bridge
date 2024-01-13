@@ -42,7 +42,7 @@ The PCB was created with KiCAD using through-hole technology (THT) and surface-m
 
 The entire electronics assembly should fit into a flush-mounted switch box, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
 
-https://github.com/Elektroarzt/simplebus2-mqtt-bridge/blob/main/mechanics/Housing%20in%20flush%20mounted%20switch%20box.png
+<img width="791" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c7216c4d-91a1-4187-8a82-3b373562678a">
 
 ### Antenna
 The antenna is glued inside the housing with adhesive tape, and a small cable channel exists for the antenna cable within the housing.
