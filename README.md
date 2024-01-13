@@ -70,7 +70,7 @@ The USB-C socket is externally routed, allowing for easy updates.
 The onboard LED features a simple light guide, making it visible externally when the housing is closed. The onboard button is operated with a small axis embedded in the housing.
 
 ### Housing
-The housing is designed in Autodesk Fusion 360 and was 3D-printed in three colors on Bambu Lab P1S printer:
+The housing was designed in Autodesk Fusion 360 and 3D-printed in three colors on Bambu Lab P1S printer:
 
 -   LED diffuser: transparent filament
 -   Housing: black filament
