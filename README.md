@@ -31,6 +31,7 @@ Topics to describe:
 - calibration process
 - wifi manager
 - web interface
+- debug console
 - ...
 
 ## Hardware
