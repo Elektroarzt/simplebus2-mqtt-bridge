@@ -32,6 +32,7 @@ Topics to describe:
 - wifi manager
 - web interface
 - debug console
+- MQTT data structure
 - ...
 
 ## Hardware
