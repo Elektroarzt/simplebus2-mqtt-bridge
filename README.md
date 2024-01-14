@@ -44,13 +44,13 @@ Topics to describe:
 - filter topology
 - hardware filter vs. DSP
 - i2c digital potentiometer / voltage divider
-- debug pin header
-- extension pin header
+- debug pin header J2
+- extension pin header J3
 - ...
 
 ## Printed Circuit Board (PCB)
 
-The PCB was created with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements.
+The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements.
 
 <img width="732" alt="Layout front V2 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f5932b9b-821a-460e-b4a3-818edec00a40">
 
@@ -61,24 +61,23 @@ The entire electronics assembly should fit into a flush-mounted switch box, resu
 <img width="791" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c7216c4d-91a1-4187-8a82-3b373562678a">
 
 ### Antenna
-The antenna is glued inside the housing with adhesive tape, and a small cable channel exists for the antenna cable within the housing.
+The antenna is glued inside the housing with adhesive tape. A small cable channel exists for the antenna cable within the housing. Be careful while inserting the PCB in the housing not to shear off the antenna cable if it is not inserted properly into the cable channel.
 
 ### USB Connector
-The USB-C socket is externally routed, allowing for easy updates.
+The USB-C socket is externally routed, allowing for easy firmware updates.
 
-### LED
+### LED and Button
 The onboard LED features a simple light guide, making it visible externally when the housing is closed. The onboard button is operated with a small axis embedded in the housing.
 
 ### Housing
 The housing was designed in Autodesk Fusion 360 and 3D-printed in three colors on Bambu Lab P1S printer:
-
 -   LED diffuser: transparent filament
 -   Housing: black filament
 -   Labeling: white filament
 
 ![Mittel (Housing V10)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/8a876f20-7a97-4d8a-b7a7-971fe98ba21d)
 
-For the filament every material is suitable that has low stringing tendency. PLA or PETG works both for me without needing supports. 0.2mm layer height does a good job on a 0.4mm standard nozzle.
+For the type of filament every material is suitable that has low stringing tendency. PLA or PETG works both for me without needing supports. 0.2mm layer height does a good job on a 0.4mm standard nozzle.
 
 <img width="1624" alt="Bambu Lab project" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/63c5a7bc-3bb4-44be-bc23-8f8ee1acf185">
 
