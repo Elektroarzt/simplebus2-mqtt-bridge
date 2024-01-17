@@ -37,6 +37,18 @@ Topics to describe:
 - MQTT data structure
 - ...
 
+**Published Topics**
+
+ Topic              | Values                 | Notes
+ ------------------ |:----------------------:| -----------------------------------
+ xxxxx/yyyyy        | on\|off                |
+
+**Subscribed Topics**
+
+| Topic             | Values                 | Notes
+| ----------------- |:----------------------:| -----------------------------------
+| xxxxx/yyyyy       | on\|off                |
+
 ## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
