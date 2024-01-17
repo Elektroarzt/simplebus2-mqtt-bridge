@@ -39,15 +39,20 @@ Topics to describe:
 
 **Published Topics**
 
- Topic              | Values                 | Notes
- ------------------ |:----------------------:| -----------------------------------
- xxxxx/yyyyy        | on\|off                |
+ Topic                        | Values                 | Notes
+ ---------------------------- |:----------------------:| --------------------------------------------
+ SimpleBus/FloorDoor          | ON                     | bell rings on floor door
+ SimpleBus/EntryDoor          | ON                     | bell rings on floor door
+ SimpleBus/Reboot             | ON                     | bridge has booted and is listening
+ SimpleBus/RingToOpenStatus   | ON / OFF               | 'ring to open' status is on or off
 
 **Subscribed Topics**
 
-| Topic             | Values                 | Notes
-| ----------------- |:----------------------:| -----------------------------------
-| xxxxx/yyyyy       | on\|off                |
+ Topic                        | Values                 | Notes
+ ---------------------------- |:----------------------:| --------------------------------------------
+ SimpleBus/OpenDoor           | ON                     | open the door
+ SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' for 1 minute
+ SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes
 
 ## Hardware
 
