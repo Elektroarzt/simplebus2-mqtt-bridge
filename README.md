@@ -75,17 +75,15 @@ This header is meant for debugging and can be populated optionally. The followin
 
  Signal Name   | Pin  | Notes
  ------------- |:----:| -------------------------------------------------------------------
- D1            | 1    | voltage divider 1 - reference voltage of high pass filter stage 1
- S2            | 2    | payload of Simplebus2 signal
- D2            | 3    | voltage divider 2 - reference voltage of comparator
+ D1            | 1    | voltage divider 1, reference voltage of high pass filter stage 1
+ S2            | 2    | cleaned payload signal of Simplebus2
+ D2            | 3    | voltage divider 2, reference voltage of comparator
  GND           | 4    | directly connected to GND plane
 
 Topics to describe:
 - filter topology
 - hardware filter vs. DSP
 - i2c digital potentiometer / voltage divider
-- debug pin header J2
-- extension pin header J3
 - ...
 
 ## Printed Circuit Board (PCB)
