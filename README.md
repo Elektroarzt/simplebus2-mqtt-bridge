@@ -65,9 +65,9 @@ This header is for future use and can hold a piggy-back. The M2.5 hole in the ne
 
  Signal Name   | Pin  | Notes
  ------------- |:----:| -------------------------------------------------------------------
- GPIO6         | 1    | GPIO 6 of ESP32
- 3.3V          | 2    | 3.3V
- GPIO3         | 3    | GPIO 3 of ESP32
+ D6            | 1    | GPIO 6 of ESP32
+ 3V3           | 2    | 3.3V
+ D3            | 3    | GPIO 3 of ESP32
  GND           | 4    | directly connected to GND plane
  
 ### Debug Pin Header J3
@@ -75,9 +75,9 @@ This header is meant for debugging and can be populated optionally. The followin
 
  Signal Name   | Pin  | Notes
  ------------- |:----:| -------------------------------------------------------------------
- DIV1          | 1    | voltage divider 1 - reference voltage of high pass filter stage 1
+ D1            | 1    | voltage divider 1 - reference voltage of high pass filter stage 1
  S2            | 2    | payload of Simplebus2 signal
- DIV2          | 3    | voltage divider 2 - reference voltage of comparator
+ D2            | 3    | voltage divider 2 - reference voltage of comparator
  GND           | 4    | directly connected to GND plane
 
 Topics to describe:
