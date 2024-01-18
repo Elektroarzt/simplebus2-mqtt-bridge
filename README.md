@@ -42,7 +42,7 @@ Topics to describe:
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| --------------------------------------------
  SimpleBus/FloorDoor          | ON                     | bell rings on floor door
- SimpleBus/EntryDoor          | ON                     | bell rings on floor door
+ SimpleBus/EntryDoor          | ON                     | bell rings on entry door of apartement
  SimpleBus/Reboot             | ON                     | bridge has booted and is listening
  SimpleBus/RingToOpenStatus   | ON / OFF               | 'ring to open' status is on or off
 
