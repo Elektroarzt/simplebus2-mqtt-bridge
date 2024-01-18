@@ -8,6 +8,7 @@
 [3. Hardware](#Hardware)  
 [4. Mechanics](#Mechanics)  
 [5. Disclaimer](#Disclaimer)  
+[6. Credits](#Credits) 
 
 ## Overview
 
@@ -58,7 +59,7 @@ The electronics draw power from the bus voltage and require no additional power 
 
 ![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
 
-### Extension Pin Header J2
+### Expansion Pin Header J2
 For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
 
  Signal Name   | Pin  | Notes
@@ -88,13 +89,13 @@ Topics to describe:
 
 ## Printed Circuit Board (PCB)
 
-The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements.
+The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
 <img width="732" alt="Layout front V2 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f5932b9b-821a-460e-b4a3-818edec00a40">
 
 ## Mechanics
 
-The entire electronics assembly should fit into a flush-mounted switch box, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
+The entire electronics assembly fits into a flush-mounted switch box, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
 
 <img width="791" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c7216c4d-91a1-4187-8a82-3b373562678a">
 
