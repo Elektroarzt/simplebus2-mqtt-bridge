@@ -118,7 +118,7 @@ The housing was designed in Autodesk Fusion 360 and 3D-printed in three colors o
 
 For the type of filament every material is suitable that has low stringing tendency. PLA or PETG works both for me without needing supports. 0.2mm layer height does a good job on a 0.4mm standard nozzle.
 
-https://github.com/Elektroarzt/simplebus2-mqtt-bridge/blob/main/mechanics/Bambu%20Lab%20project.png
+<img width="1624" alt="Bambu Lab project" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/841e8315-2a00-442a-89f9-4d012f876e1d">
 
 ## Disclaimer
 > :warning: **WARNING**: You may only **USE THIS PROJECT AT YOUR OWN RISK**. The
