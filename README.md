@@ -65,13 +65,13 @@ For future use and can hold a piggy-back. The M2.5 hole in the neighborhood can 
 
  Signal Name   | Pin  | Notes
  ------------- |:----:| -------------------------------------------------------------------
- D6            | 1    | GPIO 6 of ESP32
- 3V3           | 2    | 3.3V
- D3            | 3    | GPIO 3 of ESP32
+ D6            | 1    | GPIO 21 of ESP32 (D6 of XIAO module pinout)
+ 3V3           | 2    | directly connected to 3.3V plane
+ D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout)
  GND           | 4    | directly connected to GND plane
  
 ### Debug Pin Header J3
-Meant for debugging and can be populated optionally. The following signals can be measured against GND:
+Meant for debugging, header can be populated optionally. The following signals can be measured against GND:
 
  Signal Name   | Pin  | Notes
  ------------- |:----:| -------------------------------------------------------------------
@@ -80,9 +80,11 @@ Meant for debugging and can be populated optionally. The following signals can b
  D2            | 3    | voltage divider 2, reference voltage of comparator
  GND           | 4    | directly connected to GND plane
 
+### Filter Selection
+R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use.
+
 Topics to describe:
 - filter topology
-- hardware filter vs. DSP
 - i2c digital potentiometer / voltage divider
 - ...
 
