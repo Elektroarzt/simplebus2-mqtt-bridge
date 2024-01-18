@@ -65,7 +65,7 @@ For future use this pin header can connect to a piggy-back. The M2.5 hole in the
  ------------- |:----:| -------------------------------------------------------------------
  D6            | 1    | GPIO 21 of ESP32 (D6 of XIAO module pinout)
  3V3           | 2    | directly connected to 3.3V plane
- D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout)
+ D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout, outputs PWM signal at boot, strapping pin)
  GND           | 4    | directly connected to GND plane
  
 ### Debug Pin Header J3
