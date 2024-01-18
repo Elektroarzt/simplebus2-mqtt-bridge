@@ -61,7 +61,7 @@ The electronics draw power from the bus voltage and require no additional power 
 ![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
 
 ### Extension Pin Header J2
-For future use and can hold a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
+For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
 
  Signal Name   | Pin  | Notes
  ------------- |:----:| -------------------------------------------------------------------
