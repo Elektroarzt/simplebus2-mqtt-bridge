@@ -21,9 +21,6 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Configuration via Web Interface
 -   ...
 
-### Credits
-The project originated from the excellent foundational work on the Simplebus2 protocol by [plusvic](https://github.com/plusvic). These fundamentals will not be reiterated and can be found [here](https://github.com/plusvic/simplebus2-intercom).
-
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic2)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/6b3fbd68-7e7e-4de6-b161-e1b7b0db3095)
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic3)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e0feba6d-6ee0-4110-b9d2-6cd0f7c0bd5e)
@@ -128,3 +125,6 @@ For the type of filament every material is suitable that has low stringing tende
   misinterpreted. Neither myself nor any of the contributors to this project
   provide any warranty or will assume any responsibility for any damage you
   cause yourself or others by using this project.
+
+## Credits
+The project originated from the excellent foundational work on the Simplebus2 protocol by [plusvic](https://github.com/plusvic). These fundamentals will not be reiterated and can be found [here](https://github.com/plusvic/simplebus2-intercom).
