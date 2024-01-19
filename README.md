@@ -45,7 +45,7 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air in case a firmware update is available. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
-Gain and threshold are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path. A gain of 10 and a threshold of 220 works good from tests in a building with about 20m cable lenght.
+"gain" and "voltage Level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
 
 ### MQTT Data Structure
 **Published Topics**
