@@ -29,9 +29,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 ## Software
 
 Topics to describe:
-- calibration process
-- wifi manager
-- web interface
+- hardware tuning process
 - debug console
 - ...
 
