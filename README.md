@@ -20,6 +20,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
 -   Configuration via Web Interface
+-   OTA updates
 -   ...
 
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
