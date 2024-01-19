@@ -35,6 +35,12 @@ Topics to describe:
 - debug console
 - ...
 
+### Configuration
+
+A short push of the button SW1 starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following interface will be shown.
+
+
+
 ### MQTT Data Structure
 **Published Topics**
 
