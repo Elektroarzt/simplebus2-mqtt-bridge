@@ -43,9 +43,9 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 
 <img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/92fe75e5-ae4d-451c-a993-fb2941987a70">
 
-The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air in case a firmware update is available. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
-
 "gain" and "voltage Level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
+
+The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air in case a firmware update is available. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### MQTT Data Structure
 **Published Topics**
