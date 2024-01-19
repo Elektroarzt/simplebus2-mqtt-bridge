@@ -35,7 +35,7 @@ A short push on the button SW1 starts the configuration mode and the bridge open
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
-After selecting "Configure WiFi" the network can be selected und the appropriate password has to be entered.
+After selecting "Configure WiFi" the network can be selected and the appropriate password has to be entered.
 
 <img width="1012" alt="WiFi manager configuration 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f9000e39-f4f0-4210-8ee3-90066eea10e6">
 
