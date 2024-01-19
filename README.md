@@ -97,7 +97,7 @@ Meant for debugging, header can be populated optionally. The following signals c
  GND           | 4    | directly connected to GND plane
 
 ### Filter Selection
-R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use.
+R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohm resistor.
 
 Topics to describe:
 - filter topology
