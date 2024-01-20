@@ -45,6 +45,10 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air in case a firmware update is available. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
+The choice of the intercom adress is done in secrets.h. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing:
+
+![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
+
 ### MQTT Data Structure
 **Published Topics**
 
