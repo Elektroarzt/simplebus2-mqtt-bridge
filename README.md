@@ -43,7 +43,7 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 ### Hardware tuning
 "gain" and "voltage Level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
 
-### Firmware Update
+### Firmware update
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### Adress adjustment
@@ -51,8 +51,8 @@ The choice of the intercom adress is done in secrets.h. Each intercom unit has i
 
 ![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
 
-### MQTT Data Structure
-**Published Topics**
+### MQTT data structure
+**Published topics**
 
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| --------------------------------------------
@@ -61,7 +61,7 @@ The choice of the intercom adress is done in secrets.h. Each intercom unit has i
  SimpleBus/Reboot             | ON                     | bridge has booted and is listening
  SimpleBus/RingToOpenStatus   | ON / OFF               | 'ring to open' status is on or off
 
-**Subscribed Topics**
+**Subscribed topics**
 
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| ---------------------------------------------------
@@ -80,7 +80,7 @@ The electronics draw power from the bus voltage and require no additional power 
 
 ![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
 
-### Expansion Pin Header J2
+### Expansion pin header J2
 For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
 
  Signal Name   | Pin  | Notes
@@ -90,7 +90,7 @@ For future use this pin header can connect to a piggy-back. The M2.5 hole in the
  D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout, outputs PWM signal at boot, strapping pin)
  GND           | 4    | directly connected to GND plane
  
-### Debug Pin Header J3
+### Debug pin header J3
 Meant for debugging, header can be populated optionally. The following signals can be measured against GND:
 
  Signal Name   | Pin  | Notes
@@ -100,7 +100,7 @@ Meant for debugging, header can be populated optionally. The following signals c
  D2            | 3    | voltage divider 2, reference voltage of comparator
  GND           | 4    | directly connected to GND plane
 
-### Filter Selection
+### Filter selection
 R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohm resistor.
 
 ## Filter description
@@ -125,10 +125,10 @@ The entire electronics assembly fits into a flush-mounted switch box, resulting 
 ### Antenna
 The antenna is glued inside the housing with adhesive tape. A small cable channel exists for the antenna cable within the housing. Be careful while inserting the PCB in the housing not to shear off the antenna cable if it is not inserted properly into the cable channel.
 
-### USB Connector
+### USB connector
 The USB-C socket is externally routed, allowing for easy firmware updates.
 
-### LED and Button
+### LED and button
 The onboard LED features a simple light guide, making it visible externally when the housing is closed. The onboard button is operated with a small axis embedded in the housing.
 
 ### Housing
