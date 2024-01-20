@@ -100,7 +100,7 @@ Meant for debugging, header can be populated optionally. The following signals c
 R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohm resistor.
 
 ## Filter description
-In this schematics there are two Filters, one low pass (C5 and R5) and one high pass sallen key high pass active filter with a gain of 2. Between those two filters there as signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incomming 25 kHz signal.
+In this schematics there are two Filters, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there as signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incomming 25 kHz signal.
 
 Topics to describe:
 - i2c digital potentiometer / voltage divider
