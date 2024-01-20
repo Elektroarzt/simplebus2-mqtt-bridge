@@ -44,7 +44,7 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 "gain" and "voltage Level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
 
 ### Firmware Update
-The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air in case a firmware update is available. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
+The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### Adress adjustment
 The choice of the intercom adress is done in secrets.h. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing:
