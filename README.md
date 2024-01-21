@@ -69,11 +69,6 @@ The choice of the intercom adress is done in secrets.h. Each intercom unit has i
  SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' for 1 minute
  SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
 
-Topics to describe:
-- hardware tuning process
-- debug console
-- ...
-
 ## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
