@@ -1,7 +1,5 @@
 # Simplebus2 MQTT Bridge
 
-:construction: **Upload in progress ... come back later ;)**
-
 ### Table of contents
 [1. Overview](#Overview)  
 [2. Software](#Software)  
@@ -21,7 +19,6 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   WiFi Manager
 -   Configuration via Web Interface
 -   OTA updates
--   ...
 
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic2)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/6b3fbd68-7e7e-4de6-b161-e1b7b0db3095)
@@ -31,7 +28,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ### Configuration
 
-A short push on the button SW1 starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -43,12 +40,19 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 
 <img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/92fe75e5-ae4d-451c-a993-fb2941987a70">
 
-"gain" and "voltage Level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
+### Hardware tuning
+"gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
 
-The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air in case a firmware update is available. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
+### Firmware update
+The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
-### MQTT Data Structure
-**Published Topics**
+### Adress adjustment
+The choice of the intercom adress is done in secrets.h. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing:
+
+![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
+
+### MQTT data structure
+**Published topics**
 
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| --------------------------------------------
@@ -57,7 +61,7 @@ The option "Update" in the main menu shows a dialog where a .bin file can be upl
  SimpleBus/Reboot             | ON                     | bridge has booted and is listening
  SimpleBus/RingToOpenStatus   | ON / OFF               | 'ring to open' status is on or off
 
-**Subscribed Topics**
+**Subscribed topics**
 
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| ---------------------------------------------------
@@ -65,18 +69,13 @@ The option "Update" in the main menu shows a dialog where a .bin file can be upl
  SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' for 1 minute
  SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
 
-Topics to describe:
-- hardware tuning process
-- debug console
-- ...
-
 ## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
 
-![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
+![schematics V2 2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e5383859-6b88-411f-a325-aa8435e5d2d8)
 
-### Expansion Pin Header J2
+### Expansion pin header J2
 For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
 
  Signal Name   | Pin  | Notes
@@ -86,7 +85,7 @@ For future use this pin header can connect to a piggy-back. The M2.5 hole in the
  D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout, outputs PWM signal at boot, strapping pin)
  GND           | 4    | directly connected to GND plane
  
-### Debug Pin Header J3
+### Debug pin header J3
 Meant for debugging, header can be populated optionally. The following signals can be measured against GND:
 
  Signal Name   | Pin  | Notes
@@ -96,11 +95,11 @@ Meant for debugging, header can be populated optionally. The following signals c
  D2            | 3    | voltage divider 2, reference voltage of comparator
  GND           | 4    | directly connected to GND plane
 
-### Filter Selection
+### Filter selection
 R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohm resistor.
 
-## Filter description
-In this schematics there are two Filters, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there as signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incomming 25 kHz signal.
+### Filter description
+In this schematics there are two filters, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there is signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incomming 25 kHz signal.
 
 Topics to describe:
 - i2c digital potentiometer / voltage divider
@@ -110,7 +109,7 @@ Topics to describe:
 
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
-<img width="732" alt="Layout front V2 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f5932b9b-821a-460e-b4a3-818edec00a40">
+<img width="749" alt="PCBA top V2 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/20c94ec7-d7f3-4fd0-953f-d5efa6a62d72">
 
 ## Mechanics
 
@@ -121,10 +120,10 @@ The entire electronics assembly fits into a flush-mounted switch box, resulting 
 ### Antenna
 The antenna is glued inside the housing with adhesive tape. A small cable channel exists for the antenna cable within the housing. Be careful while inserting the PCB in the housing not to shear off the antenna cable if it is not inserted properly into the cable channel.
 
-### USB Connector
+### USB connector
 The USB-C socket is externally routed, allowing for easy firmware updates.
 
-### LED and Button
+### LED and button
 The onboard LED features a simple light guide, making it visible externally when the housing is closed. The onboard button is operated with a small axis embedded in the housing.
 
 ### Housing
