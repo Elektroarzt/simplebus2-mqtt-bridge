@@ -114,7 +114,7 @@ Topics to describe:
 
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
-<img width="732" alt="Layout front V2 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f5932b9b-821a-460e-b4a3-818edec00a40">
+<img width="749" alt="PCBA top V2 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/20c94ec7-d7f3-4fd0-953f-d5efa6a62d72">
 
 ## Mechanics
 
