@@ -1,1 +1,1 @@
-To view ibom.html properly download the file and open it in any web browser by double click
+To view ibom properly download the file and open it in any web browser by double click
