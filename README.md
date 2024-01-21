@@ -78,7 +78,8 @@ Topics to describe:
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
 
-![Schematics V2 1](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/115db3b3-a06b-46df-984c-68052d103bfa)
+[schematics V2.2.pdf](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/files/14001517/schematics.V2.2.pdf)
+
 
 ### Expansion pin header J2
 For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
