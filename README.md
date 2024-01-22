@@ -79,7 +79,7 @@ The electronics draw power from the bus voltage and require no additional power 
 For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
 
  Signal Name   | Pin  | Notes
- ------------- |:----:| -------------------------------------------------------------------
+ ------------- |:----:| --------------------------------------------------------------------------------------
  D6            | 1    | GPIO 21 of ESP32 (D6 of XIAO module pinout)
  3V3           | 2    | directly connected to 3.3V plane
  D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout, outputs PWM signal at boot, strapping pin)
@@ -89,10 +89,10 @@ For future use this pin header can connect to a piggy-back. The M2.5 hole in the
 Meant for debugging, header can be populated optionally. The following signals can be measured against GND:
 
  Signal Name   | Pin  | Notes
- ------------- |:----:| -------------------------------------------------------------------
- D1            | 1    | voltage divider 1, reference voltage of high pass filter stage 1
+ ------------- |:----:| ----------------------------------------------------------------------------
+ D1            | 1    | voltage divider 1, reference voltage of OPV filter stage 1 ('gain' parameter)
  S2            | 2    | cleaned payload signal of Simplebus2
- D2            | 3    | voltage divider 2, reference voltage of comparator
+ D2            | 3    | voltage divider 2, reference voltage of comparator ('level' parameter)
  GND           | 4    | directly connected to GND plane
 
 ### Filter selection
