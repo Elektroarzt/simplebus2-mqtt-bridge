@@ -125,7 +125,7 @@ R1 and R11 are alternative positions to select signal conditioning by hardware (
 
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
-<img width="749" alt="PCBA top V2 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/20c94ec7-d7f3-4fd0-953f-d5efa6a62d72">
+![Layout front V2 2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/9e08688a-bc8e-422b-9aea-08cdf21ee501)
 
 ## Mechanics
 
