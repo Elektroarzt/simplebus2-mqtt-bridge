@@ -12,12 +12,12 @@
 
 This project focuses on integrating Comelit intercom systems running the Simplebus2 protocol into a Smart Home, typically equipped with an MQTT broker for information exchange. The following functions have been implemented:
 
--   Doorbell signal for the main entrance
--   Doorbell signal for the apartment door
--   Opening the main entrance door
+-   Doorbell signal main entrance
+-   Doorbell signal apartment door
+-   Opening main entrance door
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
--   Configuration via Web Interface
+-   Configuration via Web Interface, activated by button press and signaled with a LED
 -   OTA updates
 
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
@@ -28,7 +28,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ### Configuration
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -39,6 +39,8 @@ After selecting "Configure WiFi" the network can be selected and the appropriate
 Scrolling down the page MQTT credentials, the hardware and firmware configuration can be edited.
 
 <img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/92fe75e5-ae4d-451c-a993-fb2941987a70">
+
+Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
 
 ### Hardware tuning
 "gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
@@ -102,7 +104,7 @@ Meant for debugging, header can be populated optionally. The following signals c
  GND           | 4    | directly connected to GND plane
 
 ### Filter
-In this schematics there are two filters, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there is signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incoming 25 kHz signal.
+In the schematics two filters can be found, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there is signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incoming 25 kHz signal.
 
 R1 and R11 are alternative positions to select signal conditioning by hardware (comparator U6) or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohms resistor.
 
