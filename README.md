@@ -78,7 +78,7 @@ The above intercom for example is addressed to 12.
  SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
 
 ### Dependencies
-The following components are required to build the firmware:
+The following components are required to build the firmware. Other versions may also work but are not tested.
 
  Component    | Version
  ------------ |:-------
