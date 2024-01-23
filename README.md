@@ -63,7 +63,7 @@ The above intercom for example is addressed to 12.
 **Published topics**
 
  Topic                        | Values                 | Notes
- ---------------------------- |:----------------------:| --------------------------------------------
+ ---------------------------- |:----------------------:| ---------------------------------------------------
  SimpleBus/FloorDoor          | ON                     | bell rings on floor door
  SimpleBus/EntryDoor          | ON                     | bell rings on entry door of apartement
  SimpleBus/Reboot             | ON                     | bridge has booted and is listening
@@ -76,6 +76,19 @@ The above intercom for example is addressed to 12.
  SimpleBus/OpenDoor           | ON                     | open the door
  SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' for 1 minute
  SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
+
+### Dependencies
+The following components are required to build the firmware:
+
+ Component    | Version
+ ------------ |:-------
+ MultiButton  | 1.2.0
+ Debounce     | 1.2.0
+ EEPROM       | 2.0.0
+ PubSubClient | 2.8
+ WiFi         | 2.0.0
+ WiFiManager  | 2.0.16-rc.2
+ Wire         | 2.0.0
 
 ## Hardware
 
