@@ -75,7 +75,7 @@ The above intercom for example is addressed to 12.
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| ---------------------------------------------------
  SimpleBus/OpenDoor           | ON                     | open the door
- SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' (40 minutes default)
+ SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
  SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
 
 ### Dependencies
