@@ -12,12 +12,12 @@
 
 This project focuses on integrating Comelit intercom systems running the Simplebus2 protocol into a Smart Home, typically equipped with an MQTT broker for information exchange. The following functions have been implemented:
 
--   Doorbell signal for the main entrance
--   Doorbell signal for the apartment door
--   Opening the main entrance door
+-   Doorbell signal main entrance
+-   Doorbell signal apartment door
+-   Opening main entrance door
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
--   Configuration via Web Interface
+-   Configuration via Web Interface, activated by button press and signaled with a LED
 -   OTA updates
 
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
@@ -28,7 +28,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ### Configuration
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -40,6 +40,9 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 
 <img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/92fe75e5-ae4d-451c-a993-fb2941987a70">
 
+Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
+The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
+
 ### Hardware tuning
 "gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 10 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
 
@@ -47,15 +50,21 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### Adress adjustment
-The choice of the intercom adress is done in secrets.h. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing:
+The choice of the intercom adress is done in secrets.h. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
+
+ Switch No.| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8  |
+ --------- |:-:|:-:|:-:|:-:|:--:|:--:|:--:|:---:|
+ Value     | 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 |
 
 ![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
+
+The above intercom for example is addressed to 12.
 
 ### MQTT data structure
 **Published topics**
 
  Topic                        | Values                 | Notes
- ---------------------------- |:----------------------:| --------------------------------------------
+ ---------------------------- |:----------------------:| ---------------------------------------------------
  SimpleBus/FloorDoor          | ON                     | bell rings on floor door
  SimpleBus/EntryDoor          | ON                     | bell rings on entry door of apartement
  SimpleBus/Reboot             | ON                     | bridge has booted and is listening
@@ -66,8 +75,21 @@ The choice of the intercom adress is done in secrets.h. Each intercom unit has i
  Topic                        | Values                 | Notes
  ---------------------------- |:----------------------:| ---------------------------------------------------
  SimpleBus/OpenDoor           | ON                     | open the door
- SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' for 1 minute
+ SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
  SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
+
+### Dependencies
+The following components are required to build the firmware. Other versions may also work but are not tested.
+
+ Component    | Version
+ ------------ |:-------
+ MultiButton  | 1.2.0
+ Debounce     | 1.2.0
+ EEPROM       | 2.0.0
+ PubSubClient | 2.8
+ WiFi         | 2.0.0
+ WiFiManager  | 2.0.16-rc.2
+ Wire         | 2.0.0
 
 ## Hardware
 
@@ -79,7 +101,7 @@ The electronics draw power from the bus voltage and require no additional power 
 For future use this pin header can connect to a piggy-back. The M2.5 hole in the neighborhood can be used to secure a sandwich PCBA.
 
  Signal Name   | Pin  | Notes
- ------------- |:----:| -------------------------------------------------------------------
+ ------------- |:----:| --------------------------------------------------------------------------------------
  D6            | 1    | GPIO 21 of ESP32 (D6 of XIAO module pinout)
  3V3           | 2    | directly connected to 3.3V plane
  D3            | 3    | GPIO 5 of ESP32 (D3 of XIAO module pinout, outputs PWM signal at boot, strapping pin)
@@ -89,27 +111,22 @@ For future use this pin header can connect to a piggy-back. The M2.5 hole in the
 Meant for debugging, header can be populated optionally. The following signals can be measured against GND:
 
  Signal Name   | Pin  | Notes
- ------------- |:----:| -------------------------------------------------------------------
- D1            | 1    | voltage divider 1, reference voltage of high pass filter stage 1
+ ------------- |:----:| ----------------------------------------------------------------------------
+ D1            | 1    | voltage divider 1, reference voltage of OPV filter stage 1 ('gain' parameter)
  S2            | 2    | cleaned payload signal of Simplebus2
- D2            | 3    | voltage divider 2, reference voltage of comparator
+ D2            | 3    | voltage divider 2, reference voltage of comparator ('level' parameter)
  GND           | 4    | directly connected to GND plane
 
-### Filter selection
-R1 and R11 are alternative positions to select hardware filtering via comparator U6 or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohm resistor.
+### Filter
+In the schematics two filters can be found, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there is signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incoming 25 kHz signal.
 
-### Filter description
-In this schematics there are two filters, one low pass (C5 and R5) and one high pass sallen key active filter with a gain of 2. Between those two filters there is signal amplifier which can be set individually to compensate for a long bus wire. The goal is to filter and amplify the incomming 25 kHz signal.
-
-Topics to describe:
-- i2c digital potentiometer / voltage divider
-- ...
+R1 and R11 are alternative positions to select signal conditioning by hardware (comparator U6) or direct input of the signal into the ESP32. In the second case the firmware should do the signal conditioning via DSP routines or similar. At the moment the DSP option is not implemented in the firmware and is meant for future use, so option "OPV" is default. To change this, desolder R11 and close R1 with a solder drop or a 0Ohms resistor.
 
 ## Printed Circuit Board (PCB)
 
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
-<img width="749" alt="PCBA top V2 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/20c94ec7-d7f3-4fd0-953f-d5efa6a62d72">
+![Layout front V2 2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/9e08688a-bc8e-422b-9aea-08cdf21ee501)
 
 ## Mechanics
 
