@@ -38,7 +38,7 @@ After selecting "Configure WiFi" the network can be selected and the appropriate
 
 Scrolling down the page MQTT credentials, the hardware and firmware configuration can be edited.
 
-<img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/92fe75e5-ae4d-451c-a993-fb2941987a70">
+<img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c0d276fe-853e-4808-b635-5b63dbb4b4d1">
 
 Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
 The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
