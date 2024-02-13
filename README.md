@@ -41,8 +41,6 @@ Scrolling down the page MQTT credentials, the hardware and firmware configuratio
 
 <img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c0d276fe-853e-4808-b635-5b63dbb4b4d1">
 
-A long push on the button (3sec.) starts the teach-in process for the intercom adress, which learns the adress from the next incoming doll bell telegram. Teach-in will timeout after 3min. not receiving a valid adress.
-
 Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
 The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
 
