@@ -17,7 +17,8 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Opening main entrance door
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
--   Configuration via Web Interface, activated by button press and signaled with a LED
+-   Configuration via Web Interface
+-   Teach-in of intercom adress
 -   OTA updates
 
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
@@ -28,7 +29,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ### Configuration
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -39,6 +40,8 @@ After selecting "Configure WiFi" the network can be selected and the appropriate
 Scrolling down the page MQTT credentials, the hardware and firmware configuration can be edited.
 
 <img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c0d276fe-853e-4808-b635-5b63dbb4b4d1">
+
+A long push on the button (3sec.) starts the teach-in process for the intercom adress, which learns the adress from the next incoming doll bell telegram. Teach-in will timeout after 3min. not receiving a valid adress.
 
 Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
 The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
