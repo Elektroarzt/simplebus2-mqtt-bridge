@@ -7,14 +7,14 @@
 #include <Wire.h>
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
-#include "secrets.h"
 #include <PinButton.h>
 #include <Debounce.h>
 #include <EEPROM.h>
 
-
 void function_ISR();
 bool interruptActive = false;
+bool teachInActive = false;
+long teachInTimeActivated;
 
 struct Settings {
   char mqttServer[40];
@@ -24,6 +24,7 @@ struct Settings {
   int compVoltLvl;
   bool filter;
   bool ringAutomation;
+  int intercomAddress;
 } mySettings;
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -37,6 +38,11 @@ bool ringToOpenStarted = false;
 unsigned int ringToOpenMillis = 45*60*1000;
 unsigned int ringToOpenMillisStart = 0;
 volatile bool pinTriggered = false;
+int lastState = LOW;  
+int currentState;    
+unsigned long pressedTime  = 0;
+unsigned long releasedTime = 0;
+
 
 
 
@@ -185,19 +191,15 @@ void loadSettings() {
   Serial.println(String(mySettings.mqttPassword));
   Serial.println(mySettings.gain);
   Serial.println(mySettings.compVoltLvl);
-  
 }
 bool structInitialized() {
-  return mySettings.compVoltLvl != 0 && mySettings.gain != 0 && sizeof(mySettings.mqttPassword) > 1 && sizeof(mySettings.mqttServer) > 1 && sizeof(mySettings.mqttPassword)>1;
+  return   mySettings.compVoltLvl != 0 && mySettings.gain != 0 && sizeof(mySettings.mqttPassword) > 1 && sizeof(mySettings.mqttServer) > 1 && sizeof(mySettings.mqttPassword)>1;
 }
 boolean isNumeric(String str) {
     unsigned int stringLength = str.length();
- 
     if (stringLength == 0) {
         return false;
     }
-
- 
     for(unsigned int i = 0; i < stringLength; ++i) {
         if (isDigit(str.charAt(i))) {
             continue;
@@ -227,6 +229,8 @@ void setupI2C(int i2cNumber) {
     }
   }
   Wire.begin(sdaPin, sclPin, I2C_FREQ);
+  Wire.beginTransmission(0xFF);
+  Wire.endTransmission();
 }
 
 void setPotValue(byte byteValue) {
@@ -241,26 +245,24 @@ void setPotValue(byte byteValue) {
 }
 
 void setPotPercentage(float percentage) {
-  Serial.print("Percentage Pot");
-  Serial.print(percentage);
   if(percentage < 0 || percentage > 100) {
     return;
   }
   int value = round((float(percentage)/100.0) * 127.0);
-   Serial.print("Percentage value");
-   Serial.print(value);
+  Serial.println("Percentage value");
+  Serial.print(value);
   setPotValue(value);
  
 }
 
 void setPotResistance(float resistance) {
-  Serial.print("setPotresistance persencate value");
+  Serial.println("Resistor value:");
   Serial.print(resistance);
   if(resistance < 0 || resistance > MCP4017_MAX_RESISTANCE) {
     return;
   }
-  float percentageToSet = (float(resistance)/float(MCP4017_MAX_RESISTANCE)) * 100.0;
-  Serial.print("setPotresistance persencate value");
+  float percentageToSet = (float(resistance-325)/float(MCP4017_MAX_RESISTANCE)) * 100.0;
+  Serial.println("Percentage:");
   Serial.print(percentageToSet);
   setPotPercentage(percentageToSet);
 }
@@ -278,11 +280,15 @@ void setOPVGain(int gain) {
 
 //set ref voltage of the comparator in [mV]
 void setComparatorVoltageLimit(int voltage) {
+  Serial.println("Voltage to set:");
+  Serial.print(voltage);
   if(voltage < 100 || voltage > 1500) {
     return;
   }
   setupI2C(2);
   float resistorValue = (float(voltage) * float(OPV_FIXED_GAIN_RESISTOR))/(3300.0-float(voltage));
+  Serial.println("Resistor Value:");
+  Serial.print(resistorValue);
   setPotResistance(resistorValue);
 }
 
@@ -325,7 +331,6 @@ void sendMessage(bool bitToSend) {
   } else {
     sendPWM();
     delay(3);
-    
   }
 }
 
@@ -427,7 +432,14 @@ void processInterrupt() {
           int checksum = 0;
           checksum += __builtin_popcount(msgCode);
           checksum += __builtin_popcount(msgAddr);
-          if(checksum == msgChecksum && msgAddr == INTERCOM_ADDRESS) {
+          if(teachInActive) {
+            mySettings.intercomAddress = msgAddr;
+            saveSettings();
+            teachInActive = false;
+            digitalWrite(LEDPIN, LOW);
+            ringToOpenStarted = true;
+          }
+          if(checksum == msgChecksum && msgAddr == mySettings.intercomAddress) {
             messageCode = msgCode;
             messageOk = true;
           } 
@@ -454,14 +466,14 @@ void processMessage(unsigned int msgCode)
       if(ringToOpenStarted) {
         // Waiting time in necessary otherwise the opening singal cant get through
         delay(2000); 
-        writeMessageToIntercom(MSG_OPEN_DOOR, INTERCOM_ADDRESS);
+        writeMessageToIntercom(MSG_OPEN_DOOR, mySettings.intercomAddress);
         startStopRingToOpen(false);
         
       } else {
         if ((lastOpenDoorTime > 0 && millis() - lastOpenDoorTime < 60000) && mySettings.ringAutomation) {
           // Wait for 2.5 seconds before opening the door. 
           delay(2000);
-          writeMessageToIntercom(MSG_OPEN_DOOR, INTERCOM_ADDRESS);
+          writeMessageToIntercom(MSG_OPEN_DOOR, mySettings.intercomAddress);
         } else {
           delay(2000);
           client.publish("SimpleBus/EntryDoor", "ON");
@@ -521,7 +533,6 @@ void addNullTermination(char *stringToSearch) {
 
 void setup_wifi(bool autoconnect = true) {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
-  
   delay(10);
   WiFiManager wifiManager;
   wifiManager.setSaveConfigCallback(saveConfigCallback);
@@ -534,15 +545,17 @@ void setup_wifi(bool autoconnect = true) {
   wifiManager.addParameter(&custom_mqtt_user);
   WiFiManagerParameter custom_mqtt_password("password", "mqtt password", mySettings.mqttPassword, 40);
   wifiManager.addParameter(&custom_mqtt_password);
-  
-
+  char intercomAddress[2];
+  itoa(mySettings.intercomAddress,intercomAddress,10);
+  WiFiManagerParameter custom_intercomAddress("address", "Address Intercom", intercomAddress, 40);
+  wifiManager.addParameter(&custom_intercomAddress);
   char gainChar[2];
   itoa(mySettings.gain,gainChar,10);
-  WiFiManagerParameter custom_gain("gain", "gain", gainChar, 40);
+  WiFiManagerParameter custom_gain("Gain", "Gain", gainChar, 40);
   wifiManager.addParameter(&custom_gain);
   char compVoltChar[3];
   itoa(mySettings.compVoltLvl,compVoltChar,10);
-  WiFiManagerParameter custom_voltage_level("voltagelevel", "voltage level",compVoltChar, 40);
+  WiFiManagerParameter custom_voltage_level("voltagelevel", "Voltage level",compVoltChar, 40);
   wifiManager.addParameter(&custom_voltage_level); 
   char customhtmlFilter[24] = "type=\"checkbox\"";
   if (mySettings.filter) {
@@ -565,6 +578,7 @@ void setup_wifi(bool autoconnect = true) {
   if(shouldSaveConfig) {
     const char* voltageTmp = custom_voltage_level.getValue();
     const char* gainTmp = custom_gain.getValue();
+    const char* intercomAddressTmp = custom_intercomAddress.getValue();
     strcpy(mySettings.mqttServer, custom_mqttServer.getValue());
     strcpy(mySettings.mqttUser, custom_mqtt_user.getValue());
     strcpy(mySettings.mqttPassword, custom_mqtt_password.getValue());
@@ -578,17 +592,23 @@ void setup_wifi(bool autoconnect = true) {
     Serial.println("MQTT Password:"+String(mySettings.mqttPassword));
     Serial.println("Comp Voltage:"+String(voltageTmp));
     Serial.println("Gain:"+String(gainTmp));
+    Serial.println("Intercom Address:"+String(intercomAddressTmp));
     Serial.println( mySettings.ringAutomation);
     Serial.println( mySettings.filter);
     if(isNumeric(String(voltageTmp))) {
       mySettings.compVoltLvl = String(voltageTmp).toInt();
     } else {
-      mySettings.compVoltLvl = 290;
+      mySettings.compVoltLvl = 220;
     }
     if(isNumeric(String(gainTmp))) {
       mySettings.gain = String(gainTmp).toInt();
     } else {
       mySettings.gain = 33;
+    }
+    if(isNumeric(String(intercomAddressTmp))) {
+      mySettings.intercomAddress = String(intercomAddressTmp).toInt();
+    } else {
+      mySettings.intercomAddress = 0;
     }
     saveSettings();
   }
@@ -614,7 +634,7 @@ void callback(char* topic, byte* message, unsigned int length) {
     //Serial.print("OPENEING the door ");
     if(messageTemp == String("ON")) {
       Serial.print("OPENEING the door ");
-      writeMessageToIntercom(MSG_OPEN_DOOR, INTERCOM_ADDRESS);  
+      writeMessageToIntercom(MSG_OPEN_DOOR, mySettings.intercomAddress);  
    }
     
   }
@@ -632,7 +652,6 @@ void callback(char* topic, byte* message, unsigned int length) {
           }
           
         }
-      
     } else {
       ringToOpenMillis = 45*60*1000;
     }
@@ -665,9 +684,6 @@ void callback(char* topic, byte* message, unsigned int length) {
       startStopRingToOpen(false);
     }
   }
-
- 
-  
 }
 
 void reconnect() {
@@ -682,7 +698,7 @@ void reconnect() {
       // Subscribe
       client.subscribe("SimpleBus/OpenDoor");
       client.subscribe("SimpleBus/RingToOpen");
-      client.subscribe("SimpleBus/RingToOpenTime");
+      client.subscribe("SimpleBus/SetRingToOpenTime");
       client.publish("SimpleBus","subscribed");
     } else {
       cnt++;
@@ -709,8 +725,7 @@ void connectmqtt()
     Serial.println("connected to MQTT");
     client.subscribe("SimpleBus/OpenDoor");
     client.subscribe("SimpleBus/RingToOpen");
-    client.subscribe("SimpleBus/RingToOpenTime");
-    
+    client.subscribe("SimpleBus/SetRingToOpenTime");
   } else {
     reconnect();
   }
@@ -724,8 +739,6 @@ void setup()
   
   Serial.begin(115200);
   delay(1000);
-  Serial.print("TEST---------------------------------------------------------------------------------");
-  
   loadSettings();
   setPowerSavings();
   
@@ -746,6 +759,7 @@ void setup()
     mySettings.compVoltLvl = 220;
     mySettings.filter = true;
     mySettings.ringAutomation = false;
+    mySettings.intercomAddress = 0;
     saveSettings();
     setup_wifi(false);
   } else {
@@ -764,28 +778,63 @@ void setup()
   lastOpenDoorTime = 0;
   digitalWrite(LEDPIN, LOW);
 
-  
-
-
 }
 
 
 void loop()
 {
-  if(Button.read() == HIGH) { 
-    Serial.print("BUTTON PRESSED");
-    digitalWrite(LEDPIN, HIGH);
-    setup_wifi(false);
-    setOPVGain(mySettings.gain);
-    setComparatorVoltageLimit(mySettings.compVoltLvl);
-    digitalWrite(LEDPIN, LOW);
-    if (!client.connected())
-    {
-      reconnect();
-    }
-    
-    
+  currentState = Button.read();
+  if(teachInActive) {
+    long diffTimeTeachIn = millis() - teachInTimeActivated;
+    if(diffTimeTeachIn > 180000) {
+      teachInActive = false;
+      digitalWrite(LEDPIN, LOW);
+    } 
   }
+
+  if(lastState == LOW && currentState == HIGH)        // button is pressed
+    pressedTime = millis();
+  else if(lastState == HIGH && currentState == LOW) { // button is released
+    releasedTime = millis();
+
+    long pressDuration = releasedTime - pressedTime;
+
+    if( pressDuration < 1000 && pressDuration > 100 ) {
+      pressDuration = 0;
+     
+      digitalWrite(LEDPIN, HIGH);
+      setup_wifi(false);
+      setOPVGain(mySettings.gain);
+      setComparatorVoltageLimit(mySettings.compVoltLvl);
+      digitalWrite(LEDPIN, LOW);
+      if (!client.connected())
+      {
+        reconnect();
+      }
+
+    }
+      
+    if( pressDuration > 2000 && pressDuration < 5000 ) {
+      pressDuration = 0;
+      teachInTimeActivated = millis();
+      teachInActive = !teachInActive;
+      if(teachInActive) {
+        digitalWrite(LEDPIN, HIGH);
+        delay(500);
+        digitalWrite(LEDPIN, LOW);
+        delay(500);
+        digitalWrite(LEDPIN, HIGH);
+        delay(500);
+        digitalWrite(LEDPIN, LOW);
+        delay(500);
+        digitalWrite(LEDPIN, HIGH);
+      } else {
+        digitalWrite(LEDPIN, LOW);
+      }
+      
+    }
+  }
+  lastState = currentState;
   client.loop();
   
   if (!client.connected())
