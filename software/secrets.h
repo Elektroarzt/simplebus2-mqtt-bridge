@@ -1,2 +1,0 @@
-
-#define INTERCOM_ADDRESS 3 

@@ -17,7 +17,8 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Opening main entrance door
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
--   Configuration via Web Interface, activated by button press and signaled with a LED
+-   Configuration via Web Interface
+-   Teach-in of intercom adress
 -   OTA updates
 
 ![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
@@ -28,7 +29,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ### Configuration
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -44,13 +45,15 @@ Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will wor
 The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
 
 ### Hardware tuning
-"gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 7 and a voltage level of 220 works good from tests in a building with about 20m cable lenght.
+"gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 10 and a voltage level of 200 works good from tests in a building with about 20m cable lenght.
 
 ### Firmware update
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### Adress adjustment
-The choice of the intercom adress is done in secrets.h. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
+The adress of the intercom can be teached by pressing the button for 3...4s. The bridge will acknowledge with 3x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress.
+
+Alternatively the choice of the intercom adress can be done in the web interface. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
 
  Switch No.| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8  |
  --------- |:-:|:-:|:-:|:-:|:--:|:--:|:--:|:---:|
