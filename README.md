@@ -84,15 +84,15 @@ The above intercom for example is addressed to 12.
 ### Dependencies
 The following components are required to build the firmware. Other versions may also work but are not tested.
 
- Component    | Version
- ------------ |:-------
- MultiButton  | 1.2.0
- Debounce     | 1.2.0
- EEPROM       | 2.0.0
- PubSubClient | 2.8
- WiFi         | 2.0.0
- WiFiManager  | 2.0.16-rc.2
- Wire         | 2.0.0
+ | Component    | Version     | Link                                             |
+ | ------------ | :---------- | ------------------------------------------------ |
+ | EEPROM       | 2.0.0       | default Arduino                                  |
+ | WiFi         | 2.0.0       | default Arduino                                  |
+ | Wire         | 2.0.0       | default Arduino                                  |
+ | MultiButton  | 1.2.0       | https://github.com/poelstra/arduino-multi-button |
+ | Debounce     | 1.2.0       | https://github.com/wkoch/Debounce                |
+ | PubSubClient | 2.8         | https://github.com/knolleary/pubsubclient        |
+ | WiFiManager  | 2.0.16-rc.2 | https://github.com/tzapu/WiFiManager             |
 
 ## Hardware
 
