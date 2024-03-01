@@ -229,7 +229,9 @@ void setupI2C(int i2cNumber) {
     }
   }
   Wire.begin(sdaPin, sclPin, I2C_FREQ);
-  Wire.beginTransmission(0xFF);
+  Wire.write(0b111111111);
+  Wire.endTransmission(false);
+  Wire.write(0);
   Wire.endTransmission();
 }
 
@@ -242,6 +244,7 @@ void setPotValue(byte byteValue) {
   Wire.beginTransmission(MCP4017_I2C_ADDRESS);
   Wire.write(byteValue);
   Wire.endTransmission();
+  Wire.end();
 }
 
 void setPotPercentage(float percentage) {
@@ -459,9 +462,8 @@ void processMessage(unsigned int msgCode)
   {
     
     case MSG_CALL_TO_SECONDARY_SWITCHBOARD:
-    case MSG_CALL_FROM_ENTRY_DOOR:
-    
       break;
+    case MSG_CALL_FROM_ENTRY_DOOR:
     case MSG_CALL_FROM_ENTRY_DOOR_SCREEN_ON:
       if(ringToOpenStarted) {
         // Waiting time in necessary otherwise the opening singal cant get through
