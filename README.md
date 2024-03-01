@@ -47,6 +47,12 @@ The web interface is not supported by every browser in all functions (e.g. firmw
 ### Hardware tuning
 "gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 10 and a voltage level of 200 works good from tests in a building with about 20m cable lenght.
 
+### Filter
+If selected, the firmware will be triggered by the 25kHz bursts in the bus telegram. If not selected, it will be triggered only on the rising and falling edges of the payload of the bus telegram.
+
+### Open Automation
+If selected, the automatic opening of the door after receiving a ring signal is possible. This has to be additionally activated and configured via MQTT. If not selected, the automatic open funcionality is completely disabled.
+
 ### Firmware update
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
