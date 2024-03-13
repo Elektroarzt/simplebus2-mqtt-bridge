@@ -229,9 +229,7 @@ void setupI2C(int i2cNumber) {
     }
   }
   Wire.begin(sdaPin, sclPin, I2C_FREQ);
-  Wire.write(0b111111111);
-  Wire.endTransmission(false);
-  Wire.write(0);
+  Wire.beginTransmission(0b111111111);
   Wire.endTransmission();
 }
 
