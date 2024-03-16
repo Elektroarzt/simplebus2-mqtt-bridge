@@ -684,6 +684,35 @@ void callback(char* topic, byte* message, unsigned int length) {
       startStopRingToOpen(false);
     }
   }
+  if (String(topic) == "SimpleBus/SetComparatorVoltage") {
+    if(isNumeric(messageTemp)) {
+      int compVoltage = messageTemp.toInt();
+      //rto maximum time 24 hours, security feature
+      
+      
+      if( compVoltage >= 100 && compVoltage < 1500) {
+          mySettings.compVoltLvl = compVoltage;
+          saveSettings();
+          setComparatorVoltageLimit(compVoltage);
+      }
+    }
+     //Change minutes to millis 
+
+  }
+
+  if (String(topic) == "SimpleBus/SetGain") {
+    if(isNumeric(messageTemp)) {
+      int gain = messageTemp.toInt();
+      //rto maximum time 24 hours, security feature
+      
+      
+      if( gain >= 2 && gain <= 40) {
+          mySettings.gain = gain;
+          saveSettings();
+          setOPVGain(gain);
+      }
+    }
+  }
 }
 
 void reconnect() {
@@ -699,6 +728,8 @@ void reconnect() {
       client.subscribe("SimpleBus/OpenDoor");
       client.subscribe("SimpleBus/RingToOpen");
       client.subscribe("SimpleBus/SetRingToOpenTime");
+      client.subscribe("SimpleBus/SetComparatorVoltage");
+      client.subscribe("SimpleBus/SetGain");
       client.publish("SimpleBus","subscribed");
     } else {
       cnt++;
@@ -726,6 +757,8 @@ void connectmqtt()
     client.subscribe("SimpleBus/OpenDoor");
     client.subscribe("SimpleBus/RingToOpen");
     client.subscribe("SimpleBus/SetRingToOpenTime");
+    client.subscribe("SimpleBus/SetComparatorVoltage");
+    client.subscribe("SimpleBus/SetGain");
   } else {
     reconnect();
   }
