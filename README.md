@@ -81,11 +81,13 @@ The above intercom for example is addressed to 12.
 
 **Subscribed topics**
 
- Topic                        | Values                 | Notes
- ---------------------------- |:----------------------:| ---------------------------------------------------
- SimpleBus/OpenDoor           | ON                     | open the door
- SimpleBus/RingToOpen         | ON / OFF               | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
- SimpleBus/SetRingToOpenTime  | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
+ Topic                          | Values                 | Notes
+ ------------------------------ |:----------------------:| ---------------------------------------------------
+ SimpleBus/OpenDoor             | ON                     | open the door
+ SimpleBus/RingToOpen           | ON / OFF               | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
+ SimpleBus/SetRingToOpenTime    | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
+ SimpleBus/SetGain              | 2 ... 40               | set gain factor of the amplifier U4
+ SimpleBus/SetComparatorVoltage | 100 ... 1500           | set threshold of the comparator U6 to x millivolts, e.g. 250 mV
 
 ### Dependencies
 The following components are required to build the firmware. Other versions may also work but are not tested.
