@@ -12,9 +12,11 @@
 #include <EEPROM.h>
 
 void function_ISR();
+void activateInterrupt(bool activate);
 bool interruptActive = false;
 bool teachInActive = false;
 long teachInTimeActivated;
+unsigned long lastBusActiveBit = 0;
 
 struct Settings {
   char mqttServer[40];
@@ -35,6 +37,7 @@ volatile int messageCode = 0;
 bool messageReceived = false;
 
 bool ringToOpenStarted = false;
+bool interruptAttached = false;
 unsigned int ringToOpenMillis = 45*60*1000;
 unsigned int ringToOpenMillisStart = 0;
 volatile bool pinTriggered = false;
@@ -148,7 +151,6 @@ unsigned long releasedTime = 0;
 
 volatile bool messageOk = false;
   
-unsigned long lastOpenDoorTime;
 unsigned long pauseTime;
 unsigned long startTime;
 bool pauseTimeMeasured;
@@ -341,10 +343,7 @@ void sendMessageStart() {
 }
 
 void writeMessageToIntercom(int msgCode, int msgAddr) {
-  detachInterrupt(INTERCOM_READ_PIN);
-  if(msgCode = MSG_OPEN_DOOR) {
-    lastOpenDoorTime = millis();
-  }  
+  activateInterrupt(false);
   int msgArray [18];
   int checksum = 0;
 
@@ -360,7 +359,7 @@ void writeMessageToIntercom(int msgCode, int msgAddr) {
     sendMessage(msgArray[i]);
   }
   sendPWM();
-  attachInterrupt(INTERCOM_READ_PIN, function_ISR, RISING);
+  activateInterrupt(true);
  
 }
 void startStopRingToOpen(bool start) {
@@ -378,7 +377,22 @@ static int messageBitArray [18];
 static bool messageStarted  = false;
 static bool busHigh = false;
 static unsigned long lastPauseTime = 0;
+void activateInterrupt(bool activate) {
+  if(activate) {
+    if(!interruptAttached) {
+      interruptAttached = true;
+      attachInterrupt(INTERCOM_READ_PIN, function_ISR, CHANGE);
+      
+    }
 
+  } else {
+    if(interruptAttached) {
+      interruptAttached = false;
+      detachInterrupt(INTERCOM_READ_PIN);
+    }
+    
+  }
+}
 void processInterrupt() {
   unsigned long currentInterrupt = micros();
   unsigned long pauseTime = 0;
@@ -402,21 +416,23 @@ void processInterrupt() {
       if(messageStarted) {
       
         switch(pauseTime) {
-          case 2000 ... 4900: {
+          case 2400 ... 3700: {
             count++;
             messageBitArray[messagePositon] = 0;
-            ///Serial.print("0");
+            //Serial.print("0");
             messagePositon++;
+            lastBusActiveBit = micros();
+            activateInterrupt(false);
             
             break;
           }
-          case 5000 ... 9000: {
+          case 5000 ... 7200: {
             count++;
             //Serial.print("1");
             messageBitArray[messagePositon] = 1;
             messagePositon++;
-            
-            
+            lastBusActiveBit = micros();
+            activateInterrupt(false);
             break;
           }
           default:{
@@ -468,23 +484,20 @@ void processMessage(unsigned int msgCode)
         delay(2000); 
         writeMessageToIntercom(MSG_OPEN_DOOR, mySettings.intercomAddress);
         startStopRingToOpen(false);
+        delay(500);
+        client.publish("SimpleBus/EntryDoor", "ON");
         
       } else {
-        if ((lastOpenDoorTime > 0 && millis() - lastOpenDoorTime < 60000) && mySettings.ringAutomation) {
-          // Wait for 2.5 seconds before opening the door. 
-          delay(2000);
-          writeMessageToIntercom(MSG_OPEN_DOOR, mySettings.intercomAddress);
-        } else {
-          delay(2000);
-          client.publish("SimpleBus/EntryDoor", "ON");
-        }
+        delay(2500);
+        client.publish("SimpleBus/EntryDoor", "ON");
       }
       break;
     case MSG_CALL_FROM_FLOOR_DOOR:
+      delay(1000);
       client.publish("SimpleBus/FloorDoor", "ON");
       break;
   case MSG_OPEN_DOOR:
-    lastOpenDoorTime = millis();
+    
     break;
   }
 
@@ -713,6 +726,31 @@ void callback(char* topic, byte* message, unsigned int length) {
       }
     }
   }
+  if (String(topic) == "SimpleBus/StartConfigMode") {
+    if(messageTemp == String("ON")) {
+      setup_wifi();
+      setOPVGain(mySettings.gain);
+      setComparatorVoltageLimit(mySettings.compVoltLvl);
+    }
+  }
+  if (String(topic) == "SimpleBus/StartTeachIn") {
+    if(messageTemp == String("ON")) {
+      teachInActive = true;
+      digitalWrite(LEDPIN, HIGH);
+      delay(500);
+      digitalWrite(LEDPIN, LOW);
+      delay(500);
+      digitalWrite(LEDPIN, HIGH);
+      delay(500);
+      digitalWrite(LEDPIN, LOW);
+      delay(500);
+      digitalWrite(LEDPIN, HIGH);
+    }
+    if(messageTemp == String("OFF")) {
+      teachInActive = false;
+      digitalWrite(LEDPIN, LOW);
+    }
+  }
 }
 
 void reconnect() {
@@ -730,6 +768,8 @@ void reconnect() {
       client.subscribe("SimpleBus/SetRingToOpenTime");
       client.subscribe("SimpleBus/SetComparatorVoltage");
       client.subscribe("SimpleBus/SetGain");
+      client.subscribe("SimpleBus/StartConfigMode");
+      client.subscribe("SimpleBus/StartTeachIn");
       client.publish("SimpleBus","subscribed");
     } else {
       cnt++;
@@ -759,6 +799,8 @@ void connectmqtt()
     client.subscribe("SimpleBus/SetRingToOpenTime");
     client.subscribe("SimpleBus/SetComparatorVoltage");
     client.subscribe("SimpleBus/SetGain");
+    client.subscribe("SimpleBus/StartConfigMode");
+    client.subscribe("SimpleBus/StartTeachIn");
   } else {
     reconnect();
   }
@@ -779,7 +821,7 @@ void setup()
   pinMode(INTERCOM_WRITE_PIN, OUTPUT);
   pinMode(LEDPIN,OUTPUT);
   interruptActive = true;
-  attachInterrupt(INTERCOM_READ_PIN, function_ISR, RISING);
+  activateInterrupt(true);
   pauseTimeMeasured = false;
   pauseTimeStart = false;
   ledcSetup(0, 25000, 8);
@@ -788,15 +830,21 @@ void setup()
     strcpy(mySettings.mqttPassword, "PASSWORD\0");
     strcpy(mySettings.mqttServer, "SERVER\0");
     strcpy(mySettings.mqttUser, "USER\0");
-    mySettings.gain = 10;
-    mySettings.compVoltLvl = 220;
+    mySettings.gain = 20;
+    mySettings.compVoltLvl = 200;
     mySettings.filter = true;
     mySettings.ringAutomation = false;
     mySettings.intercomAddress = 0;
     saveSettings();
     setup_wifi(false);
+    setOPVGain(mySettings.gain);
+    setComparatorVoltageLimit(mySettings.compVoltLvl);
+    digitalWrite(LEDPIN, LOW);
   } else {
     setup_wifi();
+    setOPVGain(mySettings.gain);
+    setComparatorVoltageLimit(mySettings.compVoltLvl);
+    digitalWrite(LEDPIN, LOW);
   }
   
   client.setServer(mySettings.mqttServer, 1883);
@@ -806,9 +854,6 @@ void setup()
   client.publish("SimpleBus/Reboot", "ON");
   setOPVGain(mySettings.gain);
   setComparatorVoltageLimit(mySettings.compVoltLvl);
-  
-
-  lastOpenDoorTime = 0;
   digitalWrite(LEDPIN, LOW);
 
 }
@@ -879,6 +924,15 @@ void loop()
       startStopRingToOpen(false);
     }
   }
+  if(messageStarted) {
+    if(micros() - lastBusActiveBit > 1500)
+    {
+      activateInterrupt(true);
+    }
+    
+  }else {
+    activateInterrupt(true);
+  } 
   if(pinTriggered) {
     processInterrupt();
   }
