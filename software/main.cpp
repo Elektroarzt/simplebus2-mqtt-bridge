@@ -485,7 +485,7 @@ void processMessage(unsigned int msgCode)
         writeMessageToIntercom(MSG_OPEN_DOOR, mySettings.intercomAddress);
         startStopRingToOpen(false);
         delay(500);
-        client.publish("SimpleBus/EntryDoor", "ON");
+        client.publish("SimpleBus/EntryDoorOpened", "ON");
         
       } else {
         delay(2500);
