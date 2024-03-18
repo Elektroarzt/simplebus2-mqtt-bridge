@@ -29,7 +29,7 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ### Configuration
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED. Alternatively the configuration mode can be started via MQTT.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -57,9 +57,7 @@ If selected, the automatic opening of the door after receiving a ring signal is 
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### Adress adjustment
-The adress of the intercom can be teached by pressing the button for 3...4s. The bridge will acknowledge with 3x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress.
-
-Alternatively the choice of the intercom adress can be done in the web interface. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
+Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
 
  Switch No.| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8  |
  --------- |:-:|:-:|:-:|:-:|:--:|:--:|:--:|:---:|
@@ -68,6 +66,8 @@ Alternatively the choice of the intercom adress can be done in the web interface
 ![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
 
 The above intercom for example is addressed to 12.
+
+The adress of the intercom can be easiest teached by pressing the button for 3...4s. The bridge will acknowledge with 3x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress. Alternatively the teach-in process can be started via MQTT. As a third way the choice of the intercom adress can be done manually in the web interface.
 
 ### MQTT data structure
 **Published topics**
@@ -88,6 +88,8 @@ The above intercom for example is addressed to 12.
  SimpleBus/SetRingToOpenTime    | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
  SimpleBus/SetGain              | 2 ... 40               | set gain factor of the amplifier U4
  SimpleBus/SetComparatorVoltage | 100 ... 1500           | set threshold of the comparator U6 to x millivolts, e.g. 250 mV
+ SimpleBus/StartConfigMode      | ON                     | start web configuration portal on IP address 192.168.4.1
+ SimpleBus/StartTeachIn         | ON                     | activate teach-in routine, learns intercom address from the bus
 
 ### Dependencies
 The following components are required to build the firmware. Other versions may also work but are not tested.
