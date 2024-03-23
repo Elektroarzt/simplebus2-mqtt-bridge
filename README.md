@@ -3,7 +3,7 @@
 ### Table of contents
 [1. Overview](#Overview)  
 [2. Software](#Software)  
-[3. ESPhome](#ESPhome integration)  
+[3. ESPhome](#ESPhome)  
 [4. Hardware](#Hardware)  
 [5. Mechanics](#Mechanics)  
 [6. Disclaimer](#Disclaimer)  
@@ -106,7 +106,7 @@ The following components are required to build the firmware. Other versions may 
  | PubSubClient | 2.8         | https://github.com/knolleary/pubsubclient        |
  | WiFiManager  | 2.0.16-rc.2 | https://github.com/tzapu/WiFiManager             |
 
-## ESPhome integration
+## ESPhome
 If you feel more familiar with ESPhome instead of MQTT give [this companion project](https://github.com/se-bastiaan/esphome-simplebus2) a try. It is based on the hardware of this project and allows for easy integration in Home Assistant. Many thanks to [se-bastiaan](https://github.com/se-bastiaan) for his fabulous work!
 
 ## Hardware
