@@ -22,9 +22,9 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Teach-in of intercom adress
 -   OTA updates
 
-![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
-![Mittel (Simplebus2 MQTT Bridge V2 0 Pic2)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/6b3fbd68-7e7e-4de6-b161-e1b7b0db3095)
-![Mittel (Simplebus2 MQTT Bridge V2 0 Pic3)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e0feba6d-6ee0-4110-b9d2-6cd0f7c0bd5e)
+![Bridge front](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/fad2f1d9-91a6-4b36-82e3-777d47f65b6b)
+![Bridge front PCBA](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/cac0c7ac-0554-418a-90bc-81e9a0638eaf)
+![Bridge connector](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/37c8e988-82e1-4e89-92e0-a10634ce108b)
 
 ## Software
 
