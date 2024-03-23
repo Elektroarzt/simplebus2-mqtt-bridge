@@ -3,7 +3,7 @@
 ### Table of contents
 [1. Overview](#Overview)  
 [2. Software](#Software)  
-[3. ESPhome integration](#ESPhome integration)  
+[3. ESPhome](#ESPhome integration)  
 [4. Hardware](#Hardware)  
 [5. Mechanics](#Mechanics)  
 [6. Disclaimer](#Disclaimer)  
