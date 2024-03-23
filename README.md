@@ -105,6 +105,9 @@ The following components are required to build the firmware. Other versions may 
  | PubSubClient | 2.8         | https://github.com/knolleary/pubsubclient        |
  | WiFiManager  | 2.0.16-rc.2 | https://github.com/tzapu/WiFiManager             |
 
+### ESPhome integration
+If you feel more familiar with ESPhome instead of MQTT give [this companion project](https://github.com/se-bastiaan/esphome-simplebus2) a try. It is based on the hardware of this project and allows for easy integration in Home Assistant. Many thanks to [se-bastiaan](https://github.com/se-bastiaan) for his fabulous work!
+
 ## Hardware
 
 The electronics draw power from the bus voltage and require no additional power source. A Seeed Studio XIAO ESP32C3 serves as the controller board.
@@ -141,6 +144,8 @@ R1 and R11 are alternative positions to select signal conditioning by hardware (
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
 ![Layout front V2 2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/9e08688a-bc8e-422b-9aea-08cdf21ee501)
+
+If someone is interested in a complete bridge including all parts (PCBA, ESP32, housing, etc.) you can contact me under elektroarzt@digital-filestore.de.
 
 ## Mechanics
 
