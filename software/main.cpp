@@ -837,6 +837,7 @@ void setup()
 
   lastOpenDoorTime = 0;
   digitalWrite(LEDPIN, LOW);
+  client.publish("SimpleBus/Heartbeat", "ON");
 
 }
 
