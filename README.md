@@ -3,10 +3,11 @@
 ### Table of contents
 [1. Overview](#Overview)  
 [2. Software](#Software)  
-[3. Hardware](#Hardware)  
-[4. Mechanics](#Mechanics)  
-[5. Disclaimer](#Disclaimer)  
-[6. Credits](#Credits) 
+[3. ESPhome](#ESPhome)  
+[4. Hardware](#Hardware)  
+[5. Mechanics](#Mechanics)  
+[6. Disclaimer](#Disclaimer)  
+[7. Credits](#Credits) 
 
 ## Overview
 
@@ -17,19 +18,19 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Opening main entrance door
 -   Ring-to-Open (automatic opening)
 -   WiFi Manager
--   Configuration via Web Interface
+-   Configuration via Web Interface and MQTT
 -   Teach-in of intercom adress
 -   OTA updates
 
-![Mittel (Simplebus2 MQTT Bridge V2 0 Pic5)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/eb228457-a56e-4270-bf16-d54564b8aaf9)
-![Mittel (Simplebus2 MQTT Bridge V2 0 Pic2)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/6b3fbd68-7e7e-4de6-b161-e1b7b0db3095)
-![Mittel (Simplebus2 MQTT Bridge V2 0 Pic3)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e0feba6d-6ee0-4110-b9d2-6cd0f7c0bd5e)
+![Bridge front](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/fad2f1d9-91a6-4b36-82e3-777d47f65b6b)
+![Bridge front PCBA](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/cac0c7ac-0554-418a-90bc-81e9a0638eaf)
+![Bridge connector](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/37c8e988-82e1-4e89-92e0-a10634ce108b)
 
 ## Software
 
 ### Configuration
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED.
+A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED. Alternatively the configuration mode can be started via MQTT.
 
 <img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
@@ -45,7 +46,7 @@ Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will wor
 The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
 
 ### Hardware tuning
-"gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 10 and a voltage level of 200 works good from tests in a building with about 20m cable lenght.
+"gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 20 and a voltage level of 600 works good from tests in a building with about 20m cable lenght.
 
 ### Filter
 If selected, the firmware will be triggered by the 25kHz bursts in the bus telegram. If not selected, it will be triggered only on the rising and falling edges of the payload of the bus telegram.
@@ -57,9 +58,7 @@ If selected, the automatic opening of the door after receiving a ring signal is 
 The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
 
 ### Adress adjustment
-The adress of the intercom can be teached by pressing the button for 3...4s. The bridge will acknowledge with 3x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress.
-
-Alternatively the choice of the intercom adress can be done in the web interface. Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
+Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
 
  Switch No.| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8  |
  --------- |:-:|:-:|:-:|:-:|:--:|:--:|:--:|:---:|
@@ -68,6 +67,8 @@ Alternatively the choice of the intercom adress can be done in the web interface
 ![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
 
 The above intercom for example is addressed to 12.
+
+The adress of the intercom can be easiest teached by pressing the button for 3...4s. The bridge will acknowledge with 3x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress. Alternatively the teach-in process can be started via MQTT. As a third way the choice of the intercom adress can be done manually in the web interface.
 
 ### MQTT data structure
 **Published topics**
@@ -78,6 +79,7 @@ The above intercom for example is addressed to 12.
  SimpleBus/EntryDoor          | ON                     | bell rings on entry door of building
  SimpleBus/Reboot             | ON                     | bridge has booted and is listening
  SimpleBus/RingToOpenStatus   | ON / OFF               | 'ring to open' status is on or off
+ SimpleBus/EntryDoorOpened    | ON                     | is sent if 'ring to open' function opened the door automatically
 
 **Subscribed topics**
 
@@ -86,8 +88,10 @@ The above intercom for example is addressed to 12.
  SimpleBus/OpenDoor             | ON                     | open the door
  SimpleBus/RingToOpen           | ON / OFF               | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
  SimpleBus/SetRingToOpenTime    | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
- SimpleBus/SetGain              | 2 ... 40               | set gain factor of the amplifier U4
- SimpleBus/SetComparatorVoltage | 100 ... 1500           | set threshold of the comparator U6 to x millivolts, e.g. 250 mV
+ SimpleBus/SetGain              | 2 ... 40               | set gain factor of the amplifier U4 (20 default)
+ SimpleBus/SetComparatorVoltage | 100 ... 1500           | set threshold of the comparator U6 to x millivolts, e.g. 250 mV (200 default)
+ SimpleBus/StartConfigMode      | ON                     | start web configuration portal on IP address 192.168.4.1
+ SimpleBus/StartTeachIn         | ON                     | activate teach-in routine, learns intercom address from the bus
 
 ### Dependencies
 The following components are required to build the firmware. Other versions may also work but are not tested.
@@ -101,6 +105,9 @@ The following components are required to build the firmware. Other versions may 
  | Debounce     | 1.2.0       | https://github.com/wkoch/Debounce                |
  | PubSubClient | 2.8         | https://github.com/knolleary/pubsubclient        |
  | WiFiManager  | 2.0.16-rc.2 | https://github.com/tzapu/WiFiManager             |
+
+## ESPhome
+If you feel more familiar with ESPhome instead of MQTT give [this companion project](https://github.com/se-bastiaan/esphome-simplebus2) a try. It is based on the hardware of this project and allows for easy integration in Home Assistant. Many thanks to [se-bastiaan](https://github.com/se-bastiaan) for his fabulous work!
 
 ## Hardware
 
@@ -138,6 +145,8 @@ R1 and R11 are alternative positions to select signal conditioning by hardware (
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
 
 ![Layout front V2 2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/9e08688a-bc8e-422b-9aea-08cdf21ee501)
+
+If someone is interested in a complete bridge including all parts (PCBA, ESP32, housing, etc.) you can contact me under elektroarzt@digital-filestore.de.
 
 ## Mechanics
 
