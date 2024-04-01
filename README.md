@@ -73,25 +73,27 @@ The adress of the intercom can be easiest teached by pressing the button for 3..
 ### MQTT data structure
 **Published topics**
 
- Topic                        | Values                 | Notes
- ---------------------------- |:----------------------:| ---------------------------------------------------
- SimpleBus/FloorDoor          | ON                     | bell rings on floor door of apartement
- SimpleBus/EntryDoor          | ON                     | bell rings on entry door of building
- SimpleBus/Reboot             | ON                     | bridge has booted and is listening
- SimpleBus/RingToOpenStatus   | ON / OFF               | 'ring to open' status is on or off
- SimpleBus/EntryDoorOpened    | ON                     | is sent if 'ring to open' function opened the door automatically
+ Topic                          | Values         | Notes
+ ------------------------------ |:--------------:| ---------------------------------------------------
+ SimpleBus/FloorDoor            | ON             | bell rings on floor door of apartement
+ SimpleBus/EntryDoor            | ON             | bell rings on entry door of building
+ SimpleBus/Reboot               | ON             | bridge has booted and is listening
+ SimpleBus/RingToOpenStatus     | ON / OFF       | 'ring to open' status is on or off
+ SimpleBus/RingToOpenOpened     | ON             | is sent if 'ring to open' function opened the door automatically
+ SimpleBus/Heartbeat            | ON             | sent every 5min to show online status
 
 **Subscribed topics**
 
- Topic                          | Values                 | Notes
- ------------------------------ |:----------------------:| ---------------------------------------------------
- SimpleBus/OpenDoor             | ON                     | open the door
- SimpleBus/RingToOpen           | ON / OFF               | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
- SimpleBus/SetRingToOpenTime    | 1 ... 1440             | activate 'ring to open' for x minutes (max. 24hrs)
- SimpleBus/SetGain              | 2 ... 40               | set gain factor of the amplifier U4 (20 default)
- SimpleBus/SetComparatorVoltage | 100 ... 1500           | set threshold of the comparator U6 to x millivolts, e.g. 250 mV (200 default)
- SimpleBus/StartConfigMode      | ON                     | start web configuration portal on IP address 192.168.4.1
- SimpleBus/StartTeachIn         | ON                     | activate teach-in routine, learns intercom address from the bus
+ Topic                          | Values         | Notes
+ ------------------------------ |:--------------:| ---------------------------------------------------
+ SimpleBus/OpenDoor             | ON             | open the door
+ SimpleBus/RingToOpen           | ON / OFF       | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
+ SimpleBus/SetRingToOpenTime    | 1 ... 1440     | activate 'ring to open' for x minutes (max. 24hrs)
+ SimpleBus/SetGain              | 2 ... 40       | set gain factor of the amplifier U4 (20 default)
+ SimpleBus/SetComparatorVoltage | 100 ... 1500   | set threshold of the comparator U6 to x millivolts, e.g. 250 mV (200 default)
+ SimpleBus/StartConfigMode      | ON             | start web configuration portal on IP address 192.168.4.1
+ SimpleBus/StartTeachIn         | ON             | activate teach-in routine, learns intercom address from the bus
+ SimpleBus/Restart              | ON             | restarts the ESP32
 
 ### Dependencies
 The following components are required to build the firmware. Other versions may also work but are not tested.
