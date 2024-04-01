@@ -707,6 +707,27 @@ void callback(char* topic, byte* message, unsigned int length) {
       }
     }
   }
+  if (String(topic) == "SimpleBus/StartConfigMode") {
+    if(messageTemp == String("ON")) {
+      setup_wifi();
+      setOPVGain(mySettings.gain);
+      setComparatorVoltageLimit(mySettings.compVoltLvl);
+    }
+  }
+  if (String(topic) == "SimpleBus/StartTeachIn") {
+    if(messageTemp == String("ON")) {
+      teachInActive = true;
+      digitalWrite(LEDPIN, HIGH);
+      delay(500);
+      digitalWrite(LEDPIN, LOW);
+      delay(500);
+      digitalWrite(LEDPIN, HIGH);
+      delay(500);
+      digitalWrite(LEDPIN, LOW);
+      delay(500);
+      digitalWrite(LEDPIN, HIGH);
+    }
+  }
   if (String(topic) == "SimpleBus/Restart") {
     if(messageTemp == String("ON")) {
       ESP.restart();   
@@ -732,6 +753,8 @@ void reconnect() {
       client.subscribe("SimpleBus/SetComparatorVoltage");
       client.subscribe("SimpleBus/SetGain");
       client.subscribe("SimpleBus/Restart");
+      client.subscribe("SimpleBus/StartTeachIn");
+      client.subscribe("SimpleBus/StartConfigMode");
       client.publish("SimpleBus","subscribed");
     } else {
       cnt++;
@@ -761,6 +784,8 @@ void connectmqtt()
     client.subscribe("SimpleBus/SetRingToOpenTime");
     client.subscribe("SimpleBus/SetComparatorVoltage");
     client.subscribe("SimpleBus/SetGain");
+    client.subscribe("SimpleBus/StartTeachIn");
+    client.subscribe("SimpleBus/StartConfigMode");
     client.subscribe("SimpleBus/Restart");
   } else {
     reconnect();
