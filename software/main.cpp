@@ -592,12 +592,12 @@ void setup_wifi(bool autoconnect = true) {
     if(isNumeric(String(voltageTmp))) {
       mySettings.compVoltLvl = String(voltageTmp).toInt();
     } else {
-      mySettings.compVoltLvl = 220;
+      mySettings.compVoltLvl = 600;
     }
     if(isNumeric(String(gainTmp))) {
       mySettings.gain = String(gainTmp).toInt();
     } else {
-      mySettings.gain = 33;
+      mySettings.gain = 20;
     }
     if(isNumeric(String(intercomAddressTmp))) {
       mySettings.intercomAddress = String(intercomAddressTmp).toInt();
@@ -822,8 +822,8 @@ void setup()
     strcpy(mySettings.mqttPassword, "PASSWORD\0");
     strcpy(mySettings.mqttServer, "SERVER\0");
     strcpy(mySettings.mqttUser, "USER\0");
-    mySettings.gain = 10;
-    mySettings.compVoltLvl = 220;
+    mySettings.gain = 20;
+    mySettings.compVoltLvl = 600;
     mySettings.filter = true;
     mySettings.ringAutomation = false;
     mySettings.intercomAddress = 0;
