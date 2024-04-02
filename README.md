@@ -32,24 +32,17 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED. Alternatively the configuration mode can be started via MQTT.
 
-<img width="968" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
+<img width="500" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
 
-After selecting "Configure WiFi" the network can be selected and the appropriate password has to be entered.
+After selecting "Configure WiFi" the credentials of the bridge and hardware / firmware configuration can be edited:
 
-<img width="1012" alt="WiFi manager configuration 1" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/f9000e39-f4f0-4210-8ee3-90066eea10e6">
-
-Scrolling down the page MQTT credentials, the hardware and firmware configuration can be edited.
-
-<img width="1012" alt="WiFi manager configuration 2" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/3716c826-b892-4ab4-ac22-bebfb8acaf8f">
+<img width="250" alt="WiFi manager configuration" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/bd1f1602-053f-4ca7-87d4-2d1543fa69aa">
 
 Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
 The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
 
 ### Hardware tuning
 "gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 20 and a voltage level of 600 works good from tests in a building with about 20m cable lenght.
-
-### Filter
-If selected, the firmware will be triggered by the 25kHz bursts in the bus telegram. If not selected, it will be triggered only on the rising and falling edges of the payload of the bus telegram.
 
 ### Open Automation
 If selected, the automatic opening of the door after receiving a ring signal is possible. This has to be additionally activated and configured via MQTT. If not selected, the automatic open funcionality is completely disabled.
@@ -64,11 +57,11 @@ Each intercom unit has its own 8-bits address, which is configured via an 8-way 
  --------- |:-:|:-:|:-:|:-:|:--:|:--:|:--:|:---:|
  Value     | 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128 |
 
-![DIP switch](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0)
+<img width="300" alt="DIP switch panel" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0">
 
 The above intercom for example is addressed to 12.
 
-The adress of the intercom can be easiest teached by pressing the button for 3...4s. The bridge will acknowledge with 3x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress. Alternatively the teach-in process can be started via MQTT. As a third way the choice of the intercom adress can be done manually in the web interface.
+The adress of the intercom can be easiest teached by pressing the button (SW1) for 3...4s. The bridge will acknowledge with 2x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. The LED will stay on in this time. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress. Alternatively the teach-in process can be started via MQTT. As a third way the choice of the intercom adress can be done manually in the web interface.
 
 ### MQTT data structure
 **Published topics**
@@ -90,9 +83,9 @@ The adress of the intercom can be easiest teached by pressing the button for 3..
  SimpleBus/RingToOpen           | ON / OFF       | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
  SimpleBus/SetRingToOpenTime    | 1 ... 1440     | activate 'ring to open' for x minutes (max. 24hrs)
  SimpleBus/SetGain              | 2 ... 40       | set gain factor of the amplifier U4 (20 default)
- SimpleBus/SetComparatorVoltage | 100 ... 1500   | set threshold of the comparator U6 to x millivolts, e.g. 250 mV (200 default)
+ SimpleBus/SetComparatorVoltage | 100 ... 1500   | set threshold of the comparator U6 to x millivolts, e.g. 600 (default)
  SimpleBus/StartConfigMode      | ON             | start web configuration portal on IP address 192.168.4.1
- SimpleBus/StartTeachIn         | ON             | activate teach-in routine, learns intercom address from the bus
+ SimpleBus/StartTeachIn         | ON / OFF       | ON activates teach-in routine, learns intercom address from the bus; OFF cancels the teaching process
  SimpleBus/Restart              | ON             | restarts the ESP32
 
 ### Dependencies
@@ -145,19 +138,20 @@ R1 and R11 are alternative positions to select signal conditioning by hardware (
 ## Printed Circuit Board (PCB)
 
 The PCB was designed with KiCAD using through-hole technology (THT) and surface-mount device technology (SMD) to match the limited space requirements. Top layer is 3,3V plane and bottom is GND plane.
-
-![Layout front V2 2](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/9e08688a-bc8e-422b-9aea-08cdf21ee501)
-
 If someone is interested in a complete bridge including all parts (PCBA, ESP32, housing, etc.) you can contact me under elektroarzt@digital-filestore.de.
+
+<img width="400" alt="PCB Layout front" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/9e08688a-bc8e-422b-9aea-08cdf21ee501">
 
 ## Mechanics
 
 The entire electronics assembly fits into a flush-mounted switch box, resulting in a streamlined enclosure. The latch was designed as a snap closure, eliminating the need for additional mechanical components beyond the housing shells.
 
-<img width="791" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c7216c4d-91a1-4187-8a82-3b373562678a">
+<img width="400" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c7216c4d-91a1-4187-8a82-3b373562678a">
 
 ### Antenna
-The antenna is glued inside the housing with adhesive tape. A small cable channel exists for the antenna cable within the housing. Be careful while inserting the PCB in the housing not to shear off the antenna cable if it is not inserted properly into the cable channel.
+The antenna is mounted inside the housing with adhesive tape. A small cable channel exists for the antenna cable within the housing. Be careful while inserting the PCB in the housing not to shear off the antenna cable if it is not inserted properly into the cable channel.
+
+<img width="300" alt="Bridge Antenna" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/4652c3fa-6144-4ea2-9211-f5a49fb67cec">
 
 ### USB connector
 The USB-C socket is externally routed, allowing for easy firmware updates.
@@ -171,7 +165,7 @@ The housing was designed in Autodesk Fusion 360 and 3D-printed in three colors o
 -   Housing: black filament
 -   Labeling: white filament
 
-![Mittel (Housing V10)](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/8a876f20-7a97-4d8a-b7a7-971fe98ba21d)
+<img width="400" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/8a876f20-7a97-4d8a-b7a7-971fe98ba21d">
 
 For the type of filament every material is suitable that has low stringing tendency. PLA or PETG works both for me without needing supports. 0.2mm layer height does a good job on a 0.4mm standard nozzle.
 
