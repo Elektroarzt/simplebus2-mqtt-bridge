@@ -13,7 +13,7 @@
 void function_ISR();
 bool interruptActive = false;
 bool teachInActive = false;
-long teachInTimeActivated;
+unsigned long teachInTimeActivated;
 
 struct Settings {
   char mqttServer[40];
@@ -709,7 +709,9 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
   if (String(topic) == "SimpleBus/StartConfigMode") {
     if(messageTemp == String("ON")) {
-      setup_wifi();
+      digitalWrite(LEDPIN, HIGH);
+      setup_wifi(false);
+      digitalWrite(LEDPIN, LOW);
       setOPVGain(mySettings.gain);
       setComparatorVoltageLimit(mySettings.compVoltLvl);
     }
@@ -717,6 +719,7 @@ void callback(char* topic, byte* message, unsigned int length) {
   if (String(topic) == "SimpleBus/StartTeachIn") {
     if(messageTemp == String("ON")) {
       teachInActive = true;
+      teachInTimeActivated = millis();
       digitalWrite(LEDPIN, HIGH);
       delay(500);
       digitalWrite(LEDPIN, LOW);
@@ -726,6 +729,10 @@ void callback(char* topic, byte* message, unsigned int length) {
       digitalWrite(LEDPIN, LOW);
       delay(500);
       digitalWrite(LEDPIN, HIGH);
+    }
+    if(messageTemp == String("OFF")) {
+      teachInActive = false;
+      digitalWrite(LEDPIN, LOW);
     }
   }
   if (String(topic) == "SimpleBus/Restart") {
