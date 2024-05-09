@@ -1,4 +1,4 @@
-# Simplebus2 MQTT Bridge
+# Simplebus2 MQTT Bridge [![stability-mature](https://img.shields.io/badge/stability-mature-008000.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#mature)
 
 ### Table of contents
 [1. Overview](#Overview)  
