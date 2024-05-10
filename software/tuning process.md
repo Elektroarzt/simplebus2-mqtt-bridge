@@ -2,7 +2,7 @@
 
 If you have no oscilloscope to measure the telegram signaling, you are some kind of blind and it could get a game of testing to find out the right combination of gain and threshold for your specific environment. In this case I would go this way:
 
-1. Be sure to have an easy way on your mobile phone to tune the parameters gain and threshold via MQTT and to see the recognition of the bell telegrams. I used Node Red, but you could also use an MQTT analyzer.
+1. Be sure to have an easy way on your mobile phone to tune the parameters gain and threshold via MQTT and to see the recognition of the bell telegrams. I used Node Red, but you could also use an MQTT analyzer app on your phone.
 
 2. Check if you see a heartbeat on MQTT topic SimpleBus/Heartbeat to secure your MQTT chain is online before making tests.
 
