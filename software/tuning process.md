@@ -6,7 +6,7 @@ If you have no oscilloscope to measure the telegram signaling, you are some kind
 
 2. Check if you see a heartbeat on MQTT topic SimpleBus/Heartbeat to secure your MQTT chain is online before making tests.
 
-3. Start your tests at the floor door (apartment). Stand at the bell switch and make tests with your mobile phone in the hand to tune the parameters after each failure. For the start tune to 5/200 (gain/threshold) and go up with the threshold from 200mV up to max. 1000mV in steps of 50 for each test. If you find no recognition on MQTT topic SimpleBus/FloorDoor, start again at threshold 200 with gain rised in steps of 5 and so on until you get OK on MQTT.
+3. Start your tests at the floor door (apartment). Stand at the bell switch and make tests with your mobile phone in the hand to tune the parameters after each failure. For the start tune to 5/200 (gain/threshold) and go up with the threshold from 200mV up to max. 1000mV in steps of 50 for each test. If you find no recognition on MQTT topic SimpleBus/FloorDoor, start again at threshold 200 with gain rised in steps of 5 and so on until you get ON on MQTT.
 
 4. Now make some tests at the entry door (MQTT topic SimpleBus/EntryDoor). The cable length is much longer, so the damping is higher for the telegram. The gain has to be also a bit higher for reliable recognition probably. So if you encounter a working bell signal on the floor door, it could be you have to add some gain for the entry door.
 
