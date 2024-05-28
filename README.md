@@ -39,7 +39,7 @@ After selecting "Configure WiFi" the credentials of the bridge and hardware / fi
 <img width="250" alt="WiFi manager configuration" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/bd1f1602-053f-4ca7-87d4-2d1543fa69aa">
 
 Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
-The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Firefox.
+The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Edge.
 
 ### Hardware tuning
 "gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 20 and a voltage level of 600 works good from tests in a building with about 20m cable lenght.
