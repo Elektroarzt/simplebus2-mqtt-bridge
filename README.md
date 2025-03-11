@@ -148,6 +148,11 @@ The entire electronics assembly fits into a flush-mounted switch box, resulting 
 
 <img width="400" alt="image" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/c7216c4d-91a1-4187-8a82-3b373562678a">
 
+A second option for the housing is a DIN rail enclosure. For this, I have created a housing base with a clip that can be directly clicked onto the DIN rail. The housing should not be printed in PLA but in a flexible filament like PETG. Otherwise, there is a risk of breakage when removing the housing from the DIN rail. The top part of the housing is identical to the flush-mounted version.
+
+<img width="300" alt="Bottom DIN Rail Mount" src="https://github.com/user-attachments/assets/eba309a0-8a5d-4281-a596-97edbfd5641d" />
+<img width="300" alt="Bottom DIN Rail Mount" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/blob/main/mechanics/Housing%20on%20DIN%20Rail.png" />
+
 ### Antenna
 The antenna is mounted inside the housing with adhesive tape. A small cable channel exists for the antenna cable within the housing. Be careful while inserting the PCB in the housing not to shear off the antenna cable if it is not inserted properly into the cable channel.
 
