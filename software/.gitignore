@@ -1,0 +1,5 @@
+.pio/
+.DS_Store
+*.log
+tests/*.sh
+tests/**/*.sh

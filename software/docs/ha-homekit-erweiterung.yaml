@@ -1,0 +1,44 @@
+# In configuration.yaml unter dem bestehenden `homekit:`-Block zwei weitere
+# Listeneinträge (`-`) einfügen, dann YAML prüfen + Neustart.
+#
+# HomeKit entity_config Namen (in Apple-Mitteilung sichtbar):
+#   camera.klingel → name: Haustür
+#   camera.klingel_wohnung → name: Wohnungstür
+#   Haustür:  http://192.168.0.10:8123/local/KameraBildEntry.jpg  → camera.klingel (o.ä.)
+#   Wohnung:  .../KameraBildFloor.jpg → entity_id camera.klingel_wohnung (in HA setzen)
+#   Framerate z. B. 1 fps reicht; verify_ssl aus bei http://
+#
+# Bereits per MCP angelegt:
+#   lock.haustur_schloss  (Unlock → button.simplebus2_bridge_open_door)
+#   automation.simplebus2_haustur_nach_unlock_wieder_abschliessen (2 s Re-Lock)
+#
+# Ring-to-Open: eigenes Accessory (empfohlen) — Schalter in Home, nicht in der Kamera-Kachel.
+
+  - name: Klingel RtO
+    port: 21068
+    mode: accessory
+    filter:
+      include_entities:
+        - switch.simplebus2_bridge_ring_to_open
+    entity_config:
+      switch.simplebus2_bridge_ring_to_open:
+        name: Klingel RtO
+
+  - name: Klingel Wohnung
+    port: 21066
+    mode: accessory
+    filter:
+      include_entities:
+        - camera.klingel_wohnung
+    entity_config:
+      camera.klingel_wohnung:
+        name: Wohnungstür
+        support_audio: false
+        linked_doorbell_sensor: binary_sensor.simplebus2_bridge_floor_door
+
+  - name: Haustür Schloss
+    port: 21067
+    mode: accessory
+    filter:
+      include_entities:
+        - lock.haustur_schloss
