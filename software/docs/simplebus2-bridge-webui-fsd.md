@@ -102,7 +102,7 @@ struct Settings {
   int  gain;             // default 20
   int  compVoltLvl;      // default 600 (mV)
   bool filter;
-  bool ringAutomation;   // retained in EEPROM; no longer exposed in web UI (removed 1.1.8)
+  bool ringAutomation;   // retained in EEPROM; no longer exposed in web UI (removed 2.0.0)
   int  intercomAddress;
   char mqttPrefix[32];   // NEW — default "SimpleBus"
   int  ringToOpenMinutes;// NEW — default 600 (min = 10h), replaces runtime-only ringToOpenMillis
@@ -273,7 +273,7 @@ struct Settings {
 | FR-9.13 | Must | WiFi section shall pre-populate the SSID field with the current connected SSID (from `GET /api/config` → `wifi_ssid`); password field shall be empty with placeholder "(re-enter to change)". |
 | FR-9.14 | Must | System buttons (Restart, Factory Reset) shall have equal width (`flex:1`) and together fill the full card width, matching the Save buttons above. |
 | FR-9.15 | Must | `GET /api/config` shall include `wifi_ssid` (current `WiFi.SSID()`) in its JSON response. |
-| FR-9.16 | Removed | Ring Automation checkbox removed from web UI in 1.1.8. State is controlled exclusively via MQTT and Home Assistant. The `ringAutomation` field remains in EEPROM but is not settable via web API. |
+| FR-9.16 | Removed | Ring Automation checkbox removed from web UI in 2.0.0. State is controlled exclusively via MQTT and Home Assistant. The `ringAutomation` field remains in EEPROM but is not settable via web API. |
 
 #### CSS Class Reference (dark theme)
 
@@ -530,7 +530,7 @@ Response: `{"ok": true}` — EEPROM cleared, WiFi credentials cleared, device re
 | T3.6 | FR-5.1 | OTA via URL | 1. POST `/api/ota` with valid firmware URL. | OTA starts; device reboots with new firmware. |
 | T3.6b | FR-5.4, FR-5.5 | OTA file upload | 1. Open web UI. 2. Select `.bin` file. 3. Click Upload & Flash. | Progress shown; device flashes and reboots; firmware version updated. |
 | T3.6c | FR-4.2 | WiFi credentials persist after reboot | 1. POST `/api/wifi` with new credentials. 2. Power-cycle device. | Device reconnects to configured WiFi without entering portal. |
-| T3.6d | FR-9.16 | Ring Automation removed | 1. Open web UI → Device Configuration. | No Ring Automation checkbox present (removed 1.1.8). |
+| T3.6d | FR-9.16 | Ring Automation removed | 1. Open web UI → Device Configuration. | No Ring Automation checkbox present (removed 2.0.0). |
 | T3.7 | FR-6.2 | Factory reset | 1. POST `/api/factory-reset`. 2. Reboot. | EEPROM has defaults; device opens `Simplebus2-Bridge` AP. |
 | T3.8 | FR-7.1, FR-7.2 | Portal WiFi only | 1. Trigger factory reset. 2. Connect to `Simplebus2-Bridge` AP. | Portal shows only SSID/PW fields. |
 | T3.9 | NFR-4 | Doorbell processing unchanged | 1. Flash firmware. 2. Run `sb2test.py` (all 5 tests). | 5/5 tests pass. |

@@ -3,7 +3,7 @@
 ## Firmware under test
 
 Branch: `Simplebus2-MQTT-Bridge`  
-Version: 1.1.8  
+Version: 2.0.0  
 Hardware: ESP32-C3 (industrial PCB, GPIO9 = SDA_2/BOOT)  
 Workbench: 192.168.0.35, SLOT2 (RFC2217 port 4002)  
 MQTT broker: production Home Assistant broker  
@@ -12,7 +12,7 @@ MQTT broker: production Home Assistant broker
 
 ## Changes validated
 
-| Change | Before (1.1.0–1.1.7) | After (1.1.8) |
+| Change | Before (1.1.0–1.1.x) | After (2.0.0) |
 |--------|----------------------|---------------|
 | `avty_t` in binary sensor discovery | Present | Removed |
 | LWT in `client.connect()` | Present | Removed |
@@ -32,7 +32,7 @@ MQTT broker: production Home Assistant broker
 **Objective:** EntryDoor and FloorDoor binary sensors appear in Home Assistant.
 
 **Procedure:**
-1. Flashed 1.1.8 via workbench RFC2217
+1. Flashed 2.0.0 via workbench RFC2217
 2. Reset via `POST /api/serial/reset` (SLOT2) → `SPI_FAST_FLASH_BOOT` confirmed
 3. Reloaded MQTT integration in HA (Settings → Devices & Services → MQTT → Reload)
 4. Checked device "Simplebus2-Bridge" entity list
