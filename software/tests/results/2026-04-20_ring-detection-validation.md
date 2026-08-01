@@ -3,7 +3,7 @@
 ## Firmware under test
 
 Branch: `Simplebus2-MQTT-Bridge`  
-Version: 1.1.8  
+Version: 2.0.0  
 Hardware: ESP32-C3 (industrial PCB)  
 Workbench: 192.168.0.35, bridge at 192.168.4.4 (workbench AP)  
 MQTT broker: workbench mosquitto (192.168.4.1:1883)  
