@@ -3,11 +3,10 @@
 ### Table of contents
 [1. Overview](#Overview)  
 [2. Software](#Software)  
-[3. ESPhome](#ESPhome)  
-[4. Hardware](#Hardware)  
-[5. Mechanics](#Mechanics)  
-[6. Disclaimer](#Disclaimer)  
-[7. Credits](#Credits) 
+[3. Hardware](#Hardware)  
+[4. Mechanics](#Mechanics)  
+[5. Disclaimer](#Disclaimer)  
+[6. Credits](#Credits) 
 
 ## Overview
 
@@ -159,9 +158,6 @@ After flashing, open the web UI (`http://Simplebus2-Bridge.local/` or the device
 - Correct comparison in `writeMessageToIntercom` (`msgCode == MSG_OPEN_DOOR`) — fixes [#13](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/issues/13)
 - `structInitialized()` uses `strlen` / settings version instead of `sizeof` on char arrays — [#13](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/issues/13)
 - HA discovery / availability and RingToOpenTime sync — see release notes
-
-## ESPhome
-If you feel more familiar with ESPhome instead of MQTT give [this companion project](https://github.com/se-bastiaan/esphome-simplebus2) a try. It is based on the hardware of this project and allows for easy integration in Home Assistant. Many thanks to [se-bastiaan](https://github.com/se-bastiaan) for his fabulous work!
 
 ## Hardware
 
