@@ -119,6 +119,8 @@ Default topic prefix: **`SimpleBus`** (configurable). Change in the web UI if yo
 
 On MQTT connect the bridge publishes MQTT discovery. Entities appear under device **Simplebus2 Bridge** (Entry/Floor doorbell, Open Door button, Ring-to-Open switch & duration, etc.). Details: [software/docs/SETUP-GUIDE.md](software/docs/SETUP-GUIDE.md).
 
+![Home Assistant entities](software/docs/images/ha-entities.png)
+
 ### Highlights vs previous public firmware
 
 - **Robust Simplebus2 bus decoder** — state machine + ISR ring buffer, tighter timing, longer duplicate window (fixes double publish / false positives); see [RELEASE-NOTES](software/docs/RELEASE-NOTES.md)
