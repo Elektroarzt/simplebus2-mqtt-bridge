@@ -17,10 +17,14 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 -   Doorbell signal apartment door
 -   Opening main entrance door
 -   Ring-to-Open (automatic opening)
--   WiFi Manager
--   Configuration via Web Interface and MQTT
--   Teach-in of intercom adress
--   OTA updates
+-   Permanent web configuration UI (dark theme)
+-   Home Assistant MQTT auto-discovery
+-   Configurable MQTT topic prefix (default `SimpleBus`)
+-   WiFi provisioning portal (first boot / factory reset)
+-   Teach-in of intercom address
+-   OTA updates (URL or file upload)
+
+**Current firmware: 2.0.0** — see [software/docs/RELEASE-NOTES.md](software/docs/RELEASE-NOTES.md) and the [setup guide](software/docs/SETUP-GUIDE.md).
 
 ![Bridge front](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/fad2f1d9-91a6-4b36-82e3-777d47f65b6b)
 ![Bridge front PCBA](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/cac0c7ac-0554-418a-90bc-81e9a0638eaf)
@@ -28,30 +32,52 @@ This project focuses on integrating Comelit intercom systems running the Simpleb
 
 ## Software
 
-### Configuration
+### Build and flash (PlatformIO)
 
-A short push on the button (SW1) starts the configuration mode and the bridge opens a WiFi access point named "Config_MQTT_SimpleBus2" for 4 minutes. After connecting to this access point from any device, the following main menu will be shown. If the configured network can't be found or is out of range, the configuration mode will also be launched. The activated configuration mode is signaled by the LED. Alternatively the configuration mode can be started via MQTT.
+```bash
+cd software
+pio run                 # build
+pio run -t upload       # flash via USB
+```
 
-<img width="500" alt="WiFi manager main menu" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/7d9be9a3-b389-42de-b5eb-53c7c4b0da48">
+Target: ESP32-C3 (`esp32-c3-devkitm-1` / Seeed XIAO ESP32C3).
 
-After selecting "Configure WiFi" the credentials of the bridge and hardware / firmware configuration can be edited:
+Pre-built binaries for **v2.0.0**:
 
-<img width="250" alt="WiFi manager configuration" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/bd1f1602-053f-4ca7-87d4-2d1543fa69aa">
+| File | Use |
+|------|-----|
+| [`software/firmware/simplebus2-firmware-2.0.0.bin`](software/firmware/simplebus2-firmware-2.0.0.bin) | OTA / app update (same settings version only — see upgrade note) |
+| [`software/firmware/simplebus2-merged-2.0.0.bin`](software/firmware/simplebus2-merged-2.0.0.bin) | Full flash from `0x0` (after erase) |
 
-Keep in mind that the ESP32 is not equipped with 5GHz WiFi, only 2,4GHz will work.
-The web interface is not supported by every browser in all functions (e.g. firmware update), for best compatibility use Chrome or Edge.
+### First boot — WiFi
+
+On first boot (or after factory reset) the bridge opens AP **`Simplebus2-Bridge`** (open network). Connect and open `http://192.168.4.1/` to set home WiFi. After joining the LAN, open:
+
+- `http://Simplebus2-Bridge.local/` or the device IP
+
+### Permanent web interface
+
+Status, WiFi, MQTT (broker, credentials, **topic prefix**), device parameters (address, gain, threshold, Ring-to-Open duration), OTA, restart / factory reset:
+
+![Simplebus2-Bridge web UI](software/docs/images/web-ui.jpg)
+
+ESP32 WiFi is **2.4 GHz only**. Prefer Chrome or Edge for OTA upload.
 
 ### Hardware tuning
-"gain" and "voltage level" are parameters to tune in to the specific installation circumstances depending on cable lenght and resistance of the signal path where gain is the factor the OPV amplifies the line signal at the input and level is the threshold of the comparator before the S2 signal goes to the ESP32s GPIO. A gain of 20 and a voltage level of 600 works good from tests in a building with about 20m cable lenght.
 
-### Open Automation
-If selected, the automatic opening of the door after receiving a ring signal is possible. This has to be additionally activated and configured via MQTT. If not selected, the automatic open funcionality is completely disabled.
+**Gain** and **threshold (mV)** adapt to cable length and bus loading. Gain ≈ OPV amplification; threshold = comparator level before the signal reaches the ESP32. **Gain 20 / threshold 600 mV** works well for ~20 m cable in tested installations. See also [software/docs/tuning-process.md](software/docs/tuning-process.md).
 
-### Firmware update
-The option "Update" in the main menu shows a dialog where a .bin file can be uploaded over the air. This is a good option if the bridge is buried in the switch box. The existing configuration will be kept.
+### Ring-to-Open
 
-### Adress adjustment
-Each intercom unit has its own 8-bits address, which is configured via an 8-way DIP switch during installation. See the interior of your Comelit intercom with the DIP switch in red and translate the bits to your corresponding decimal number, which is usually your appartement or floor number. In some intercoms the DIP-switch can be found on the back, in others you need to open the housing. The address DIP switch is marked S1 and follows LSB logic like in the following table:
+Enable via MQTT (`<prefix>/RingToOpen`) or Home Assistant switch. Duration is set in the web UI or via `<prefix>/SetRingToOpenTime` (1–1440 minutes). **Ring-to-Open only opens on Entry Door rings**, not Floor Door. After a successful auto-open, RtO turns off.
+
+### Firmware update (OTA)
+
+In the web UI: paste an HTTP URL to a `.bin` and **OTA Flash**, or upload `simplebus2-firmware-2.0.0.bin` via **Upload & Flash**. Within the same settings layout version, EEPROM is kept — see **Upgrading from older firmware** below.
+
+### Address adjustment
+
+Each intercom unit has an 8-bit address (DIP switch S1, LSB). Example table:
 
  Switch No.| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8  |
  --------- |:-:|:-:|:-:|:-:|:--:|:--:|:--:|:---:|
@@ -59,47 +85,80 @@ Each intercom unit has its own 8-bits address, which is configured via an 8-way 
 
 <img width="300" alt="DIP switch panel" src="https://github.com/Elektroarzt/simplebus2-mqtt-bridge/assets/61664171/e777526b-f2ed-47c3-a666-8bb2cc70a9e0">
 
-The above intercom for example is addressed to 12.
-
-The adress of the intercom can be easiest teached by pressing the button (SW1) for 3...4s. The bridge will acknowledge with 2x blinking the LED and is then ready to be teached by the next ring that occurs on the bus in the next 3 minutes. The LED will stay on in this time. If the adress has successfully teached in, the LED shuts off and the bridge listens and talks from now on to this specific adress. Alternatively the teach-in process can be started via MQTT. As a third way the choice of the intercom adress can be done manually in the web interface.
+Teach-in: hold SW1 3–4 s (LED double-blink), then ring within 3 minutes — or use MQTT `StartTeachIn` / set address in the web UI.
 
 ### MQTT data structure
+
+Default topic prefix: **`SimpleBus`** (configurable). Change in the web UI if you prefer another root.
+
 **Published topics**
 
  Topic                          | Values         | Notes
  ------------------------------ |:--------------:| ---------------------------------------------------
- SimpleBus/FloorDoor            | ON             | bell rings on floor door of apartement
- SimpleBus/EntryDoor            | ON             | bell rings on entry door of building
- SimpleBus/Reboot               | ON             | bridge has booted and is listening
- SimpleBus/RingToOpenStatus     | ON / OFF       | 'ring to open' status is on or off
- SimpleBus/RingToOpenOpened     | ON             | is sent if 'ring to open' function opened the door automatically
- SimpleBus/Heartbeat            | ON             | sent every 5min to show online status
+ `<prefix>/FloorDoor`           | ON             | bell rings on floor door of apartment
+ `<prefix>/EntryDoor`           | ON             | bell rings on entry door of building
+ `<prefix>/RingToOpenStatus`    | ON / OFF       | Ring-to-Open active or off (retained)
+ `<prefix>/RingToOpenOpened`    | ON             | door opened via Ring-to-Open
+ `<prefix>/RingToOpenTime`      | minutes        | current RtO duration (retained)
+ `<prefix>/Heartbeat`           | ON             | every 5 min
+ `<prefix>/availability`        | online         | published on connect
 
 **Subscribed topics**
 
  Topic                          | Values         | Notes
  ------------------------------ |:--------------:| ---------------------------------------------------
- SimpleBus/OpenDoor             | ON             | open the door
- SimpleBus/RingToOpen           | ON / OFF       | activate 'ring to open' (40 minutes default, automatically shut off after bell ring)
- SimpleBus/SetRingToOpenTime    | 1 ... 1440     | activate 'ring to open' for x minutes (max. 24hrs)
- SimpleBus/SetGain              | 2 ... 40       | set gain factor of the amplifier U4 (20 default)
- SimpleBus/SetComparatorVoltage | 100 ... 1500   | set threshold of the comparator U6 to x millivolts, e.g. 600 (default)
- SimpleBus/StartConfigMode      | ON             | start web configuration portal on IP address 192.168.4.1
- SimpleBus/StartTeachIn         | ON / OFF       | ON activates teach-in routine, learns intercom address from the bus; OFF cancels the teaching process
- SimpleBus/Restart              | ON             | restarts the ESP32
+ `<prefix>/OpenDoor`            | ON             | open the door
+ `<prefix>/RingToOpen`          | ON / OFF / min | enable RtO (optional duration)
+ `<prefix>/SetRingToOpenTime`   | 1 … 1440       | set RtO duration in minutes
+ `<prefix>/SetGain`             | 2 … 40         | amplifier gain (default 20)
+ `<prefix>/SetComparatorVoltage`| 100 … 1500     | threshold mV (default 600)
+ `<prefix>/StartConfigMode`     | ON             | start WiFi AP portal
+ `<prefix>/StartTeachIn`        | ON / OFF       | teach-in / cancel
+ `<prefix>/Restart`             | ON             | restart ESP32
 
-### Dependencies
-The following components are required to build the firmware. Other versions may also work but are not tested.
+### Home Assistant
 
- | Component    | Version     | Link                                             |
- | ------------ | :---------- | ------------------------------------------------ |
- | EEPROM       | 2.0.0       | default Arduino                                  |
- | WiFi         | 2.0.0       | default Arduino                                  |
- | Wire         | 2.0.0       | default Arduino                                  |
- | MultiButton  | 1.2.0       | https://github.com/poelstra/arduino-multi-button |
- | Debounce     | 1.2.0       | https://github.com/wkoch/Debounce                |
- | PubSubClient | 2.8         | https://github.com/knolleary/pubsubclient        |
- | WiFiManager  | 2.0.16-rc.2 | https://github.com/tzapu/WiFiManager             |
+On MQTT connect the bridge publishes MQTT discovery. Entities appear under device **Simplebus2 Bridge** (Entry/Floor doorbell, Open Door button, Ring-to-Open switch & duration, etc.). Details: [software/docs/SETUP-GUIDE.md](software/docs/SETUP-GUIDE.md).
+
+### Highlights vs previous public firmware
+
+- **Robust Simplebus2 bus decoder** — state machine + ISR ring buffer, tighter timing, longer duplicate window (fixes double publish / false positives); see [RELEASE-NOTES](software/docs/RELEASE-NOTES.md)
+- Permanent web UI, configurable MQTT prefix (**default still `SimpleBus`**), HA MQTT discovery, safer ESP32-C3 restart (`safeRestart` / GPIO9)
+
+### Upgrading from older firmware (previous public sketch)
+
+**Device settings in EEPROM are not migrated.** The old firmware stored MQTT/broker/gain/address without a settings-version header; this release uses a new `Settings` layout (`SETTINGS_VERSION = 3`). On first boot after the upgrade the bridge detects a version mismatch, **wipes those EEPROM fields, and loads factory defaults**.
+
+| Data | Survives upgrade? |
+|------|-------------------|
+| WiFi SSID / password (WiFiManager NVS) | Usually **yes** |
+| MQTT broker, user, password | **No — re-enter** |
+| Topic prefix | **No — defaults to `SimpleBus`** |
+| Intercom address, gain, threshold | **No — re-enter** |
+| Ring-to-Open duration / automation flag | **No — re-enter** |
+
+After flashing, open the web UI (`http://Simplebus2-Bridge.local/` or the device IP) and re-enter MQTT + device parameters. Have your previous values ready before you update.
+
+### Breaking changes (previous public firmware → 2.0.0)
+
+- **EEPROM layout incompatible** — MQTT and device settings must be re-entered (see above)
+- WiFi AP name **`Config_MQTT_SimpleBus_2` / `Config_MQTT_SimpleBus2` → `Simplebus2-Bridge`**
+- Configuration primarily via **permanent web UI** (not only WiFiManager menus)
+
+### Dependencies (PlatformIO)
+
+| Component | Version | Notes |
+| --------- | ------- | ----- |
+| PubSubClient | ^2.8 | `lib_deps` |
+| WiFiManager | ^2.0.17 | `lib_deps` |
+| Debounce | local | `software/lib/Debounce` |
+| EEPROM, WiFi, Wire, WebServer, HTTPUpdate | Arduino-ESP32 | framework |
+
+### Issue fixes in 2.0.0
+
+- Correct comparison in `writeMessageToIntercom` (`msgCode == MSG_OPEN_DOOR`) — fixes [#13](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/issues/13)
+- `structInitialized()` uses `strlen` / settings version instead of `sizeof` on char arrays — [#13](https://github.com/Elektroarzt/simplebus2-mqtt-bridge/issues/13)
+- HA discovery / availability and RingToOpenTime sync — see release notes
 
 ## ESPhome
 If you feel more familiar with ESPhome instead of MQTT give [this companion project](https://github.com/se-bastiaan/esphome-simplebus2) a try. It is based on the hardware of this project and allows for easy integration in Home Assistant. Many thanks to [se-bastiaan](https://github.com/se-bastiaan) for his fabulous work!

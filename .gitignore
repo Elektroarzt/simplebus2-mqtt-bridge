@@ -29,7 +29,9 @@ Temporary Items
 # own ignores
 private/
 temp/
-test/
+
+# PlatformIO
+software/.pio/
 
 ####### KiCAD
 # Temporary files
